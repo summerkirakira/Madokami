@@ -12,7 +12,7 @@ class Extension:
 
 def get_extensions() -> list[Extension]:
     external_extensions = extension.ExtensionManager(
-        namespace='myapp.extensions',
+        namespace='',
         invoke_on_load=False
     )
 

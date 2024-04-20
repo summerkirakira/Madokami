@@ -1,2 +1,3 @@
-def get_plugins():
-    return []
+def load_plugins():
+    pass
+
