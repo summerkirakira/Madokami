@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class RssFeed(BaseModel):
@@ -8,7 +9,7 @@ class RssFeed(BaseModel):
         title: str
         length: int
         description: str
-        series: int
+        season: int
         episode: int
     title: str
     link: str
@@ -23,3 +24,12 @@ class MikanSearchResult(BaseModel):
         cover: str
 
     bangumis: list[Bangumi] = []
+
+
+class MikanInfoTable(BaseModel):
+    class Info(BaseModel):
+        title: str
+        link: str
+        last_updated: datetime
+
+    infos: list[Info] = []

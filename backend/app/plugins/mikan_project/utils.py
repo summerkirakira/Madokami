@@ -1,7 +1,10 @@
 import re
 from typing import Optional
+from pathlib import Path
+from .models import RssFeed
 
-def get_series(title: str) -> int:
+
+def get_season(title: str) -> int:
     title = title.lower()
     if 'ova' in title:
         return 0
@@ -67,3 +70,36 @@ def get_episode(filename: str) -> Optional[int]:
     if len(set(possible_episodes)) == 1:
         return possible_episodes[0]
 
+
+def validated_filename(filename) -> str:
+    # 文件名中不允许出现的特殊字符
+    disallowed_chars = ['\\', '/', ':', '*', '?', '"', '<', '>', '|']
+
+    for char in disallowed_chars:
+        filename = filename.replace(char, '')
+
+    return filename
+
+
+def get_validated_path(path: str) -> Path:
+    path = Path(path)
+    if not path.is_absolute():
+        path = Path.cwd() / path
+    return path
+
+
+def remove_duplicate_items(items: list[RssFeed.Item]) -> list[RssFeed.Item]:
+    item_map = {}
+    for item in items:
+        item_map[f"{item.title} - S{item.season}E{item.episode}"] = item
+    return list(item_map.values())
+
+
+def parse_subtitle_type(title: str) -> Optional[str]:
+    pattern = r'\[(.*?)\]'
+    matches = re.findall(pattern, title)
+    keyword_list = ['简体', '繁体', '中字', '外挂', '内嵌', '双语', '无字', '内封', '繁简', '简日', 'CHT', 'CHS']
+    for match in matches:
+        if any(keyword in match for keyword in keyword_list):
+            return match
+    return None

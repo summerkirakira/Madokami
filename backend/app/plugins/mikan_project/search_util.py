@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 from .models import MikanSearchResult
 
 
-
 def get_search_results(html) -> MikanSearchResult:
     soup = BeautifulSoup(html, "html.parser")
     bangumi_li = soup.select("#sk-container > div.central-container > ul")
