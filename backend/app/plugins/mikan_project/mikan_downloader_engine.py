@@ -1,5 +1,3 @@
-from typing import Tuple, Any
-
 from madokami.plugin.backend.engine import FileDownloaderEngine, DownloadStatus
 from madokami.plugin.basic_plugin import Status
 from madokami.internal.default_plugins.default_requester import DefaultRequester
@@ -8,14 +6,20 @@ from .parser import MikanRssParser
 
 from madokami import get_config, set_config
 from typing import Dict, Callable
-from .models import RssFeed
+from .models import RssFeed, MikanRssStorage, MikanRssHistory
 from .utils import validated_filename
-from aria2p.options import Options
 import shutil
-from pathlib import Path
 from .utils import get_validated_path, remove_duplicate_items
 from madokami.log import logger
 from madokami import get_app
+from madokami.crud import get_media_info_by_id, add_content, add_media_info
+from madokami.models import Content
+from madokami.models import Media as MediaInfo
+import time
+from madokami.db import engine, Session
+
+from .crud import get_rss_storages, record_rss_history, get_rss_by_link, add_rss_storage
+from madokami.db import Session, engine
 
 
 class MikanDownloaderEngine(FileDownloaderEngine):
@@ -28,6 +32,8 @@ class MikanDownloaderEngine(FileDownloaderEngine):
         )
         self.downloader = None
         self.requested_download_ids: list[str] = []
+        self.requester = DefaultRequester()
+        self.parser = MikanRssParser()
 
     def _add_rss_link_callback(self, data: Dict[str, str]):
         for config_key in data:
@@ -38,56 +44,81 @@ class MikanDownloaderEngine(FileDownloaderEngine):
     def status(self) -> Status:
         return self._status
 
-    def _raise_error(self, message: str):
+    def _raise_error(self, message: str, rss_link: str = None):
         self._status.running = False
         self._status.success = False
         self._status.message = message
 
-    def run(self):
-        mikan_rss_url = get_config('mikan_project.mikan_rss_url')
-        if mikan_rss_url is None:
+        with Session(engine) as session:
+            record_rss_history(session, rss_link, success=False)
 
-            self._status.running = False
-            self._status.success = False
-            self._status.message = 'Mikan RSS URL is not set'
-            self._status.config_request = Status.ConfigRequest(
-                configs=[
-                    Status.ConfigRequest.Config(
-                        key='mikan_project.mikan_rss_url',
-                        name='Mikan RSS URL'
-                    )
-                ],
-                method=self._add_rss_link_callback
-            )
-            return
-        self._status.running = True
-        self._status.message = 'Requesting Mikan RSS feed...'
-        requester = DefaultRequester()
-        parser = MikanRssParser()
+    def run(self):
+        rss_link_list = []
+        mikan_rss_url = get_config('mikan_project.mikan_rss_url')
+        if mikan_rss_url is not None:
+            rss_link_list.append(mikan_rss_url)
+            with Session(engine) as session:
+                rss_store = get_rss_by_link(session, mikan_rss_url)
+                if rss_store is None:
+                    add_rss_storage(session, mikan_rss_url, "Mikan RSS")
+
+        with Session(engine) as session:
+            rss_storages = get_rss_storages(session)
+            for rss_storage in rss_storages:
+                rss_link_list.append(rss_storage.rss_link)
+
+        for rss_link in rss_link_list:
+            self._run(rss_link)
+
+    def _run(self, rss_link: str):
+        # mikan_rss_url = get_config('mikan_project.mikan_rss_url')
+        # if mikan_rss_url is None:
+        #
+        #     self._status.running = False
+        #     self._status.success = False
+        #     self._status.message = 'Mikan RSS URL is not set'
+        #     self._status.config_request = Status.ConfigRequest(
+        #         configs=[
+        #             Status.ConfigRequest.Config(
+        #                 key='mikan_project.mikan_rss_url',
+        #                 name='Mikan RSS URL'
+        #             )
+        #         ],
+        #         method=self._add_rss_link_callback
+        #     )
+        #     return
+        # self._status.running = True
+        # self._status.message = 'Requesting Mikan RSS feed...'
+        requester = self.requester
+        parser = self.parser
 
         try:
-            response = requester.request(mikan_rss_url, 'GET')
+            response = requester.request(rss_link, 'GET')
         except Exception as e:
-            self._raise_error(f'Request failed with exception: {str(e)}')
+            self._raise_error(f'Request failed with exception: {str(e)}', rss_link)
             return
         if response.status_code != 200:
-            self._raise_error(f'Request failed with status code {response.status_code}')
+            self._raise_error(f'Request failed with status code {response.status_code}', rss_link)
             return
         parsed_data = parser.parse(response.text)
 
-        self._download(rss_items=parsed_data.items)
+        self._download(rss_data=parsed_data)
 
-    def _download(self, rss_items: list[RssFeed.Item]):
+        with Session(engine) as session:
+            record_rss_history(session, rss_link, success=True)
+
+    def _download(self, rss_data: RssFeed):
         is_remove_duplicate = get_config('mikan_project.remove_duplicate', "1")
+        rss_items = rss_data.items
         if is_remove_duplicate == "1":
             items_need_download = remove_duplicate_items(rss_items)
         else:
             items_need_download = rss_items
         for item in items_need_download:
-            get_app().downloader.add_download(uri=item.link, callback=self.download_callback(item))
+            get_app().downloader.add_download(uri=item.link, callback=self.download_callback(item, rss_data=rss_data))
             logger.info(f"Added download {item.link} to downloader")
 
-    def download_callback(self, item: RssFeed.Item) -> Callable:
+    def download_callback(self, item: RssFeed.Item, rss_data: RssFeed) -> Callable:
         def callback(download: Download):
             madokami_download_path = get_config('mikan_project.download_path', './data/downloads')
             madokami_download_path = get_validated_path(madokami_download_path)
@@ -108,6 +139,35 @@ class MikanDownloaderEngine(FileDownloaderEngine):
             shutil.move(source_download_path, target_path)
 
             logger.info(f"Downloaded {source_download_path} to {target_path}")
+
+            content = Content(
+                path=str(target_path),
+                title=item.title,
+                link=item.link,
+                season=item.season,
+                episode=item.episode,
+                add_time=int(time.time())
+            )
+
+            with Session(engine) as session:
+                # add_content(session, content)
+                media_info = get_media_info_by_id(session, rss_data.link.split('/')[-1])
+
+                if media_info is None:
+                    logger.info(f"Media info {rss_data.title} not found, creating new media info")
+                    media_info = MediaInfo(
+                        id=rss_data.link.split('/')[-1],
+                        title=item.title,
+                        description=rss_data.description,
+                        link=rss_data.link,
+                        contents=[content],
+                        type="Teleplay",
+                        season=item.season,
+                    )
+                else:
+                    logger.info(f"Media info {rss_data.title} found, adding content")
+                    media_info.contents.append(content)
+                add_media_info(session, media_info)
 
         return callback
 

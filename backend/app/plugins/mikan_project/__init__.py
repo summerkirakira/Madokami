@@ -1,6 +1,7 @@
 from madokami.models import PluginInfo
 from madokami.plugin import register_engine
 from .mikan_downloader_engine import MikanDownloaderEngine
+from madokami.db import engine, Session, SQLModel
 
 
 plugin_info = PluginInfo(
@@ -13,3 +14,5 @@ plugin_info = PluginInfo(
 register_engine(plugin_info, MikanDownloaderEngine())
 
 
+with Session() as session:
+    SQLModel.metadata.create_all(engine)

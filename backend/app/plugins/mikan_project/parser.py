@@ -10,14 +10,13 @@ from madokami.plugin.backend.models import SearchItem
 import datetime
 
 
-
-
 class MikanRssParser(Parser):
-    def parse(self, data: str):
+    def parse(self, data: str) -> RssFeed:
         root = ET.fromstring(data)
         items = root.findall('channel/item')
         rss_items = []
         requester = DefaultRequester()
+        bangumi_link = ""
         for item in items:
             title = item.find('title').text
             link = item.find('enclosure').attrib['url']
@@ -33,6 +32,8 @@ class MikanRssParser(Parser):
 
             if len(search_results.bangumis) != 1:
                 continue
+
+            bangumi_link = search_results.bangumis[0].link
 
             title = search_results.bangumis[0].title
 
@@ -53,7 +54,7 @@ class MikanRssParser(Parser):
             )
         return RssFeed(
             title=root.find('channel/title').text,
-            link=root.find('channel/link').text,
+            link=bangumi_link,
             description=root.find('channel/description').text,
             items=rss_items
         )
@@ -120,7 +121,7 @@ class MikanInfoPageParser(Parser):
         return search_items
 
     def _search_item_callback(self, search_item: SearchItem):
-        ...
+        pass
 
 
     def _parse_subtitle_group_table(self, table) -> MikanInfoTable:
