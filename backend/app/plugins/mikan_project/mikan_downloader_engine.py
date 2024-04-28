@@ -16,6 +16,7 @@ from madokami.crud import get_media_info_by_id, add_content, add_media_info
 from madokami.models import Content
 from madokami.models import Media as MediaInfo
 import time
+from .bangumi_requester import BangumiRequester
 from madokami.db import engine, Session
 
 from .crud import get_rss_storages, record_rss_history, get_rss_by_link, add_rss_storage
@@ -34,6 +35,7 @@ class MikanDownloaderEngine(FileDownloaderEngine):
         self.requested_download_ids: list[str] = []
         self.requester = DefaultRequester()
         self.parser = MikanRssParser()
+        self.bangumi_requester = BangumiRequester()
 
     def _add_rss_link_callback(self, data: Dict[str, str]):
         for config_key in data:
@@ -100,7 +102,7 @@ class MikanDownloaderEngine(FileDownloaderEngine):
             self._raise_error(f'Request failed with status code {response.status_code}', rss_storage.rss_link)
             return
         try:
-            parsed_data = parser.parse(response.text)
+            parsed_data = parser.parse(response.text, same_bangumi=rss_storage.rss_link.startswith("https://mikanani.me/RSS/Bangumi?bangumiId="))
         except Exception as e:
             self._raise_error(f'Parsing failed with exception: {str(e)}', rss_storage.rss_link)
             return
@@ -136,10 +138,13 @@ class MikanDownloaderEngine(FileDownloaderEngine):
                 self._raise_error(f'Download file {source_download_path} does not exist')
                 return
 
-            target_path = madokami_download_path / item.title / f"Season {item.season}"
+            target_path = madokami_download_path / validated_filename(item.title) / f"Season {item.season}"
             target_path.mkdir(parents=True, exist_ok=True)
 
-            target_path = target_path / validated_filename(f"{item.title} - S{item.season}E{item.episode}{source_extension}")
+            if item.episode_title is None:
+                target_path = target_path / validated_filename(f"{item.title} - S{item.season}E{item.episode}{source_extension}")
+            else:
+                target_path = target_path / validated_filename(f"{item.title} - S{item.season}E{item.episode} - {item.episode_title}{source_extension}")
             shutil.move(source_download_path, target_path)
 
             logger.info(f"Downloaded {source_download_path} to {target_path}")

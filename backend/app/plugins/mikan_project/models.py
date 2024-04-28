@@ -13,6 +13,7 @@ class RssFeed(BaseModel):
         description: str
         season: int
         episode: int
+        episode_title: Optional[str] = None
     title: str
     link: str
     description: str
@@ -154,3 +155,8 @@ class BangumiSubject(BaseModel):
     nsfw: bool
     type: int
 
+
+class MikanInfoPage(BaseModel):
+    bangumi_id: Optional[int]
+    title: str
+    cover: str
