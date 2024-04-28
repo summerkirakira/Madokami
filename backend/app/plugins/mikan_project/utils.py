@@ -103,3 +103,56 @@ def parse_subtitle_type(title: str) -> Optional[str]:
         if any(keyword in match for keyword in keyword_list):
             return match
     return None
+
+
+def apply_banned_pattern(title: str, banned_pattern: str) -> bool:
+    if banned_pattern == '':
+        return False
+    is_searched = re.search(banned_pattern, title)
+    if is_searched:
+        return True
+    else:
+        return False
+
+
+def apply_preferred_pattern(title: str, preferred_pattern: str) -> bool:
+    if preferred_pattern == '':
+        return False
+    is_searched = re.search(preferred_pattern, title)
+    if is_searched:
+        return True
+    else:
+        return False
+
+
+def apply_pattern_filter(items: list[RssFeed.Item], banned_pattern: Optional[str], preferred_pattern: Optional[str]) -> list[RssFeed.Item]:
+    if preferred_pattern is None:
+        preferred_pattern = ''
+    if banned_pattern is None:
+        banned_pattern = ''
+    banned_items = banned_pattern.split('#')
+    preferred_patterns = preferred_pattern.split('#')
+    filtered_items = []
+    for item in items:
+        if any(apply_banned_pattern(item.description, banned_item) for banned_item in banned_items):
+            continue
+        else:
+            filtered_items.append(item)
+
+    filtered_item_map: dict[str, list[RssFeed.Item]] = {}
+    for item in filtered_items:
+        if f"S{item.season}E{item.episode}" in filtered_item_map:
+            filtered_item_map[f"S{item.season}E{item.episode}"].append(item)
+        else:
+            filtered_item_map[f"S{item.season}E{item.episode}"] = [item]
+    filtered_items = []
+    for key, value in filtered_item_map.items():
+        is_find = False
+        for item in value:
+            if any(apply_preferred_pattern(item.description, preferred_pattern) for preferred_pattern in preferred_patterns):
+                filtered_items.append(item)
+                is_find = True
+                break
+        if not is_find:
+            filtered_items.append(value[0])
+    return filtered_items

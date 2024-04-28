@@ -28,7 +28,11 @@ class MikanRssParser(Parser):
             search_url = f'https://mikanani.me/Home/Search?searchstr={quote(title)}'
 
             response = requester.request(search_url, method='GET')
-            search_results = get_search_results(response.text)
+            try:
+                search_results = get_search_results(response.text)
+            except Exception as e:
+
+                continue
 
             if len(search_results.bangumis) != 1:
                 continue

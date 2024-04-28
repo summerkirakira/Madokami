@@ -9,7 +9,7 @@ from typing import Dict, Callable
 from .models import RssFeed, MikanRssStorage, MikanRssHistory
 from .utils import validated_filename
 import shutil
-from .utils import get_validated_path, remove_duplicate_items
+from .utils import get_validated_path, remove_duplicate_items, apply_pattern_filter
 from madokami.log import logger
 from madokami import get_app
 from madokami.crud import get_media_info_by_id, add_content, add_media_info
@@ -51,6 +51,7 @@ class MikanDownloaderEngine(FileDownloaderEngine):
 
         with Session(engine) as session:
             record_rss_history(session, rss_link, success=False)
+        logger.error(message)
 
     def run(self):
         rss_link_list = []
@@ -64,13 +65,11 @@ class MikanDownloaderEngine(FileDownloaderEngine):
 
         with Session(engine) as session:
             rss_storages = get_rss_storages(session)
-            for rss_storage in rss_storages:
-                rss_link_list.append(rss_storage.rss_link)
 
-        for rss_link in rss_link_list:
-            self._run(rss_link)
+        for rss_storage in rss_storages:
+            self._run(rss_storage)
 
-    def _run(self, rss_link: str):
+    def _run(self, rss_storage: MikanRssStorage):
         # mikan_rss_url = get_config('mikan_project.mikan_rss_url')
         # if mikan_rss_url is None:
         #
@@ -93,27 +92,32 @@ class MikanDownloaderEngine(FileDownloaderEngine):
         parser = self.parser
 
         try:
-            response = requester.request(rss_link, 'GET')
+            response = requester.request(rss_storage.rss_link, 'GET')
         except Exception as e:
-            self._raise_error(f'Request failed with exception: {str(e)}', rss_link)
+            self._raise_error(f'Request failed with exception: {str(e)}', rss_storage.rss_link)
             return
         if response.status_code != 200:
-            self._raise_error(f'Request failed with status code {response.status_code}', rss_link)
+            self._raise_error(f'Request failed with status code {response.status_code}', rss_storage.rss_link)
             return
-        parsed_data = parser.parse(response.text)
+        try:
+            parsed_data = parser.parse(response.text)
+        except Exception as e:
+            self._raise_error(f'Parsing failed with exception: {str(e)}', rss_storage.rss_link)
+            return
 
-        self._download(rss_data=parsed_data)
+        self._download(rss_data=parsed_data, banned_pattern=rss_storage.banned_pattern, preferred_pattern=rss_storage.preferred_pattern)
 
         with Session(engine) as session:
-            record_rss_history(session, rss_link, success=True)
+            record_rss_history(session, rss_storage.rss_link, success=True)
 
-    def _download(self, rss_data: RssFeed):
-        is_remove_duplicate = get_config('mikan_project.remove_duplicate', "1")
+    def _download(self, rss_data: RssFeed, banned_pattern: str = None, preferred_pattern: str = None):
+        # is_remove_duplicate = get_config('mikan_project.remove_duplicate', "1")
         rss_items = rss_data.items
-        if is_remove_duplicate == "1":
-            items_need_download = remove_duplicate_items(rss_items)
-        else:
-            items_need_download = rss_items
+        # if is_remove_duplicate == "1":
+        #     items_need_download = remove_duplicate_items(rss_items)
+        # else:
+        #     items_need_download = rss_items
+        items_need_download = apply_pattern_filter(rss_items, banned_pattern, preferred_pattern)
         for item in items_need_download:
             get_app().downloader.add_download(uri=item.link, callback=self.download_callback(item, rss_data=rss_data))
             logger.info(f"Added download {item.link} to downloader")
