@@ -2,16 +2,23 @@ import pytest
 from madokami import get_app
 from app.plugins.mikan_project.parser import MikanSearchItemParser, MikanInfoPageParser
 import requests
-from app.plugins.mikan_project.bangumi_requester import BangumiRequester
+from madokami.internal.default_plugins.bangumi_requester import BangumiRequester
 
 
-# @pytest.mark.skip(reason="This test is not working properly")
-def test_launcher():
+@pytest.mark.skip(reason="This test is not working properly")
+def test_mikan_downloader_engine():
     app = get_app()
     engine = app.plugin_manager.get_engine_by_namespace("summerkirakira.mikan_project.mikan_downloader_engine")
     engine.run()
     while True:
         pass
+
+
+def test_whole_app():
+    app = get_app()
+    app.start()
+    while True:
+        ...
 
 
 @pytest.mark.skip(reason="This test is not working properly")
@@ -23,7 +30,6 @@ def test_mikan_info_parser():
     assert result is not None
     result = mikan_info_page_parser.parse(info_page.text)
     assert result is not None
-
 
 
 @pytest.mark.skip(reason="This test is not working properly")

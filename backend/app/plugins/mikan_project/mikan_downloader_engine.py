@@ -1,23 +1,22 @@
-from madokami.plugin.backend.engine import FileDownloaderEngine, DownloadStatus
+from madokami.plugin.backend.engine import FileDownloaderEngine
 from madokami.plugin.basic_plugin import Status
 from madokami.internal.default_plugins.default_requester import DefaultRequester
-from madokami.internal.default_plugins.default_downloader import DefaultAria2Downloader, Download
+from madokami.internal.default_plugins.default_downloader import Download
 from .parser import MikanRssParser
 
 from madokami import get_config, set_config
 from typing import Dict, Callable
-from .models import RssFeed, MikanRssStorage, MikanRssHistory
+from .models import RssFeed, MikanRssStorage
 from .utils import validated_filename
 import shutil
-from .utils import get_validated_path, remove_duplicate_items, apply_pattern_filter
+from .utils import get_validated_path, apply_pattern_filter
 from madokami.log import logger
 from madokami import get_app
-from madokami.crud import get_media_info_by_id, add_content, add_media_info
+from madokami.crud import get_media_info_by_id, add_media_info
 from madokami.models import Content
 from madokami.models import Media as MediaInfo
 import time
-from .bangumi_requester import BangumiRequester
-from madokami.db import engine, Session
+from madokami.internal.default_plugins.bangumi_requester import BangumiRequester
 
 from .crud import get_rss_storages, record_rss_history, get_rss_by_link, add_rss_storage
 from madokami.db import Session, engine
@@ -172,6 +171,7 @@ class MikanDownloaderEngine(FileDownloaderEngine):
                         contents=[content],
                         type="Teleplay",
                         season=item.season,
+                        bangumi_id=item.bangumi_id
                     )
                 else:
                     logger.info(f"Media info {rss_data.title} found, adding content")

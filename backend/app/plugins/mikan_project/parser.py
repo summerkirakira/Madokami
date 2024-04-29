@@ -1,5 +1,6 @@
 from madokami.plugin.backend.parser import Parser
-from .models import RssFeed, MikanInfoTable, MikanInfoPage, EpisodeInfo
+from .models import RssFeed, MikanInfoTable, MikanInfoPage
+from madokami.internal.models import EpisodeInfo
 import xml.etree.ElementTree as ET
 from .search_util import get_search_results
 from madokami.internal.default_plugins.default_requester import DefaultRequester
@@ -9,8 +10,8 @@ from bs4 import BeautifulSoup
 from madokami.plugin.backend.models import SearchItem
 import datetime
 import re
-from .bangumi_requester import BangumiRequester
-from typing import Optional, Union
+from madokami.internal.default_plugins.bangumi_requester import BangumiRequester
+from typing import Optional
 
 
 def get_episode_title(episode_id: int, episode_info: Optional[EpisodeInfo]) -> Optional[str]:
@@ -38,6 +39,7 @@ class MikanRssParser(Parser):
         bangumi_link = ""
         bangumi_title = ""
         mikan_id = 0
+        bangumi_id: Optional[int] = None
         for item in items:
             title = item.find('title').text
             link = item.find('enclosure').attrib['url']
@@ -71,6 +73,7 @@ class MikanRssParser(Parser):
                     episode_info = self.bangumi_requester.get_episode_info(bangumi_id)
                     self.episode_cache[mikan_id] = episode_info
 
+
             season = get_season(title)
 
             if season is None or episode is None:
@@ -84,7 +87,8 @@ class MikanRssParser(Parser):
                     length=length,
                     season=season,
                     episode=episode,
-                    episode_title=get_episode_title(episode, self.episode_cache[mikan_id])
+                    episode_title=get_episode_title(episode, self.episode_cache[mikan_id]),
+                    bangumi_id=bangumi_id
                 )
             )
         return RssFeed(

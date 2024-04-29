@@ -1,7 +1,6 @@
-from madokami import Launcher
+from madokami import get_app
 
-
-launcher = Launcher()
 
 if __name__ == '__main__':
-    launcher.start()
+    app = get_app()
+    app.start()
