@@ -1,117 +1,64 @@
-# FastAPI Project - Frontend
+# vue-project-temple
 
-The frontend is built with [Vite](https://vitejs.dev/), [React](https://reactjs.org/), [TypeScript](https://www.typescriptlang.org/), [TanStack Query](https://tanstack.com/query), [TanStack Router](https://tanstack.com/router) and [Chakra UI](https://chakra-ui.com/).
+This template should help get you started developing with Vue 3 in Vite.
 
-## Frontend development
+## Recommended IDE Setup
 
-Before you begin, ensure that you have either the Node Version Manager (nvm) or Fast Node Manager (fnm) installed on your system. 
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-* To install fnm follow the [official fnm guide](https://github.com/Schniz/fnm#installation). If you prefer nvm, you can install it using the [official nvm guide](https://github.com/nvm-sh/nvm#installing-and-updating).
+## Type Support for `.vue` Imports in TS
 
-* After installing either nvm or fnm, proceed to the `frontend` directory:
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
 
-```bash
-cd frontend
-```
-* If the Node.js version specified in the `.nvmrc` file isn't installed on your system, you can install it using the appropriate command:
+## Customize configuration
 
-```bash
-# If using fnm
-fnm install
+See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-# If using nvm
-nvm install
-```
+## Project Setup
 
-* Once the installation is complete, switch to the installed version:
-
-```bash
-# If using fnm
-fnm use 
-
-# If using nvm
-nvm use
-```
-
-* Within the `frontend` directory, install the necessary NPM packages:
-
-```bash
+```sh
 npm install
 ```
 
-* And start the live server with the following `npm` script:
+### Compile and Hot-Reload for Development
 
-```bash
+```sh
 npm run dev
 ```
 
-* Then open your browser at http://localhost:5173/.
+### Type-Check, Compile and Minify for Production
 
-Notice that this live server is not running inside Docker, it's for local development, and that is the recommended workflow. Once you are happy with your frontend, you can build the frontend Docker image and start it, to test it in a production-like environment. But building the image at every change will not be as productive as running the local development server with live reload.
-
-Check the file `package.json` to see other available options.
-
-### Removing the frontend
-
-If you are developing an API-only app and want to remove the frontend, you can do it easily:
-
-* Remove the `./frontend` directory.
-
-* In the `docker-compose.yml` file, remove the whole service / section `frontend`.
-
-* In the `docker-compose.override.yml` file, remove the whole service / section `frontend`.
-
-Done, you have a frontend-less (api-only) app. 🤓
-
----
-
-If you want, you can also remove the `FRONTEND` environment variables from:
-
-* `.env`
-* `./scripts/*.sh`
-
-But it would be only to clean them up, leaving them won't really have any effect either way.
-
-## Generate Client
-
-* Start the Docker Compose stack.
-
-* Download the OpenAPI JSON file from `http://localhost/api/v1/openapi.json` and copy it to a new file `openapi.json` at the root of the `frontend` directory.
-
-* To simplify the names in the generated frontend client code, modify the `openapi.json` file by running the following script:
-
-```bash
-node modify-openapi-operationids.js
+```sh
+npm run build
 ```
 
-* To generate the frontend client, run:
+### Run Unit Tests with [Vitest](https://vitest.dev/)
 
-```bash
-npm run generate-client
+```sh
+npm run test:unit
 ```
 
-* Commit the changes.
+### Run End-to-End Tests with [Playwright](https://playwright.dev)
 
-Notice that everytime the backend changes (changing the OpenAPI schema), you should follow these steps again to update the frontend client.
+```sh
+# Install browsers for the first run
+npx playwright install
 
-## Using a Remote API
+# When testing on CI, must build the project first
+npm run build
 
-If you want to use a remote API, you can set the environment variable `VITE_API_URL` to the URL of the remote API. For example, you can set it in the `frontend/.env` file:
-
-```env
-VITE_API_URL=https://my-remote-api.example.com
+# Runs the end-to-end tests
+npm run test:e2e
+# Runs the tests only on Chromium
+npm run test:e2e -- --project=chromium
+# Runs the tests of a specific file
+npm run test:e2e -- tests/example.spec.ts
+# Runs the tests in debug mode
+npm run test:e2e -- --debug
 ```
 
-Then, when you run the frontend, it will use that URL as the base URL for the API.
+### Lint with [ESLint](https://eslint.org/)
 
-## Code Structure
-
-The frontend code is structured as follows:
-
-* `frontend/src` - The main frontend code.
-* `frontend/src/assets` - Static assets.
-* `frontend/src/client` - The generated OpenAPI client.
-* `frontend/src/components` -  The different components of the frontend.
-* `frontend/src/hooks` - Custom hooks.
-* `frontend/src/routes` - The different routes of the frontend which include the pages.
-* `theme.tsx` - The Chakra UI custom theme.
+```sh
+npm run lint
+```

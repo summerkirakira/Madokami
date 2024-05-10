@@ -150,7 +150,7 @@ class MikanDownloaderEngine(FileDownloaderEngine):
 
             content = Content(
                 path=str(target_path),
-                title=item.title,
+                title=item.episode_title if item.episode_title is not None else f"Episode {item.episode}",
                 link=item.link,
                 season=item.season,
                 episode=item.episode,
