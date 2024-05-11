@@ -26,8 +26,14 @@ const router = createRouter({
       component: MainView,
       children: [
         {
+          name: "subscriptions",
           path: "subscriptions",
           component: () => import("../views/SubscriptionView.vue"),
+        },
+        {
+          name: "media",
+          path: 'media',
+          component: () => import("../views/MediaView.vue")
         }
       ]
     }
@@ -40,7 +46,11 @@ router.beforeEach((to, from, next) => {
   if (to.name !== "login" && !userStore.isLogin) {
     next({ name: "login" });
   } else {
-    next();
+    if (to.name === "home") {
+      next({ name: "media" });
+    } else {
+      next();
+    }
   }
 });
 

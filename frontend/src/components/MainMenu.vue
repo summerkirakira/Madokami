@@ -8,7 +8,7 @@ import { ref } from 'vue'
 import {
   BookOutline as BookIcon,
   PersonOutline as PersonIcon,
-  WineOutline as WineIcon,
+  SettingsOutline as SettingsIcon,
   HomeOutline as HomeIcon
 } from '@vicons/ionicons5'
 
@@ -19,16 +19,22 @@ function renderIcon (icon: Component) {
 
 const menuOptions: MenuOption[] = [
   {
-    label: "Hello",
+    label: "媒体库",
     key: 'hear-the-wind-sing',
-    icon: renderIcon(BookIcon)
+    icon: renderIcon(HomeIcon)
   },
   {
     label: '订阅管理',
-    key: 'subscript-manage',
+    key: 'subscription-manage',
     icon: renderIcon(BookIcon),
     disabled: false,
   },
+  {
+    label: '设置',
+    key: 'settings',
+    icon: renderIcon(SettingsIcon),
+    disabled: false,
+  }
 ]
 
 function isHorizontal(): 'horizontal' | 'vertical' {

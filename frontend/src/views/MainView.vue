@@ -1,13 +1,15 @@
 <script lang="ts">
 
 import MainMenu from '@/components/MainMenu.vue'
+import MainTitleBar from '@/components/MainTitleBar.vue'
 
 import { RouterView } from 'vue-router'
 
 export default {
   components: {
     RouterView,
-    MainMenu
+    MainMenu,
+    MainTitleBar
   }
 }
 
@@ -15,6 +17,7 @@ export default {
 
 
 <template>
+  <MainTitleBar />
   <div class="container">
     <MainMenu />
     <RouterView />
