@@ -1,0 +1,6 @@
+generatorName: typescript-axios
+outputDir: src/client
+cleanupOutput: true
+inputSpec: openapi.json
+additionalProperties:
+  supportsES6: true

@@ -1,17 +1,43 @@
 <script lang="ts">
 import { NInput, NButton } from "naive-ui";
 import { useUserStore } from "@/stores/user";
+import { userLogin } from "@/services/userService";
+import { useMessageStore } from "@/stores/message";
 
 export default {
   setup() {
     const userStore = useUserStore();
+    const messageStore = useMessageStore();
     return {
-      userStore
+      userStore,
+      messageStore
+    };
+  },
+  data() {
+    return {
+      username: "",
+      password: "",
+      isButtonLoading: false
     };
   },
   components: {
     NInput,
     NButton
+  },
+  methods: {
+    async login() {
+      this.isButtonLoading = true;
+      let { data } = await userLogin(this.username, this.password);
+      debugger;
+      if (data.success) {
+        this.userStore.bindUser(this.username, data.data!)
+        this.messageStore.setMessage("登录成功", "success");
+        this.$router.push("/");
+      } else {
+        this.isButtonLoading = false;
+        this.messageStore.setMessage(data.message!, "error");
+      }
+    }
   }
 }
 </script>
@@ -21,9 +47,9 @@ export default {
     <div class="login-form">
       <h1 class="green">登录</h1>
       <div class="container">
-          <NInput placeholder="用户名" />
-          <NInput type="password" placeholder="密码" />
-          <NButton type="primary">登录</NButton>
+          <NInput placeholder="用户名" v-model:value="username" :disabled="isButtonLoading"/>
+          <NInput type="password" placeholder="密码" v-model:value="password" :disabled="isButtonLoading"/>
+          <NButton type="primary" @click="login" :loading="isButtonLoading">登录</NButton>
       </div>
     </div>
   </div>

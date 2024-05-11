@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import { useUserStore } from "@/stores/user";
+import MainView from "@/views/MainView.vue";
+
+
+
 import pinia from "../stores"
 
 const router = createRouter({
@@ -15,6 +19,17 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+    },
+    {
+      path: "/library",
+      name: "library",
+      component: MainView,
+      children: [
+        {
+          path: "subscriptions",
+          component: () => import("../views/SubscriptionView.vue"),
+        }
+      ]
     }
   ],
 });

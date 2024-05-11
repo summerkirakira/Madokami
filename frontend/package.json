@@ -13,7 +13,7 @@
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "generate-client": "openapi-generator-cli generate -i openapi.json -g typescript-axios -o src/client"
+    "generate-client": "rm -rf src/client;openapi-generator-cli generate -t .openapi-generator/templates -c openapi-generator-config.yaml"
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^2.13.4",
@@ -29,6 +29,7 @@
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.6",
     "@types/node": "^20.12.5",
+    "@vicons/ionicons5": "^0.12.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",

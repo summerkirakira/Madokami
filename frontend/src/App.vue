@@ -1,11 +1,26 @@
-<script setup lang="ts">
+<script lang="ts">
 import { RouterView } from "vue-router";
+import MessageContainer from "./components/MessageContainer.vue";
+import { NMessageProvider } from "naive-ui";
+
+
+export default {
+  components: {
+    RouterView,
+    MessageContainer,
+    NMessageProvider
+  },
+}
+
 </script>
 
 <template>
+  <n-message-provider>
+  <MessageContainer />
   <header>
-    <RouterView class="main" />
+      <RouterView class="main" />
   </header>
+  </n-message-provider>
 </template>
 
 <style scoped>

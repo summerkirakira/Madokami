@@ -1295,10 +1295,10 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        userLoginV1userLoginPost: async (userCreate: UserCreate, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        userLoginV1UserLoginPost: async (userCreate: UserCreate, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'userCreate' is not null or undefined
-            assertParamExists('userLoginV1userLoginPost', 'userCreate', userCreate)
-            const localVarPath = `/v1user/login`;
+            assertParamExists('userLoginV1UserLoginPost', 'userCreate', userCreate)
+            const localVarPath = `/v1/user/login`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1366,10 +1366,10 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async userLoginV1userLoginPost(userCreate: UserCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InfoMessage>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.userLoginV1userLoginPost(userCreate, options);
+        async userLoginV1UserLoginPost(userCreate: UserCreate, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InfoMessage>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.userLoginV1UserLoginPost(userCreate, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserApi.userLoginV1userLoginPost']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.userLoginV1UserLoginPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -1408,8 +1408,8 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        userLoginV1userLoginPost(userCreate: UserCreate, options?: any): AxiosPromise<InfoMessage> {
-            return localVarFp.userLoginV1userLoginPost(userCreate, options).then((request) => request(axios, basePath));
+        userLoginV1UserLoginPost(userCreate: UserCreate, options?: any): AxiosPromise<InfoMessage> {
+            return localVarFp.userLoginV1UserLoginPost(userCreate, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1452,8 +1452,8 @@ export class UserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public userLoginV1userLoginPost(userCreate: UserCreate, options?: RawAxiosRequestConfig) {
-        return UserApiFp(this.configuration).userLoginV1userLoginPost(userCreate, options).then((request) => request(this.axios, this.basePath));
+    public userLoginV1UserLoginPost(userCreate: UserCreate, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).userLoginV1UserLoginPost(userCreate, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
