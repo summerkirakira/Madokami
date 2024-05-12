@@ -6,6 +6,7 @@ import { NCard, NEllipsis, NBadge, NFloatButton, NIcon, NFloatButtonGroup, NPopo
 import { 
   ArrowDownCircleOutline as DownloadIcon,
   SettingsOutline as SettingsIcon,
+  RefreshOutline as RefreshIcon
 } from '@vicons/ionicons5'
 import DownloadContainer from '@/components/DownloadContainer.vue';
 import { getDownloads } from '@/services/downloadService';
@@ -41,7 +42,8 @@ export default {
     DownloadIcon,
     DownloadContainer,
     NPopover,
-    SettingsIcon
+    SettingsIcon,
+    RefreshIcon,
   },
   methods: {
     async fetchMedia() {
@@ -84,7 +86,7 @@ export default {
   <div class="button-group">
     <n-float-button-group shape="square" position="relative">
       <n-float-button>
-        <n-popover placement="left-start" trigger="hover" scrollable :style="`max-width: ${windowWidth}`">
+        <n-popover placement="left-start" trigger="hover" scrollable>
           <template #trigger>
             <n-badge :value="downloads.length" :offset="[6, -8]" :processing="true">
               <n-icon><download-icon /></n-icon>
@@ -93,10 +95,15 @@ export default {
           <DownloadContainer :downloads="downloads" />
         </n-popover>
       </n-float-button>
-      <!-- <n-float-button>
-        <n-icon><settings-icon /></n-icon>
-      </n-float-button>
       <n-float-button>
+        <n-popover placement="left" trigger="hover" scrollable>
+          <template #trigger>
+            <n-icon><refresh-icon /></n-icon>
+          </template>
+          <div>立即刷新订阅</div>
+        </n-popover>
+      </n-float-button>
+      <!-- <n-float-button>
         <n-icon><download-icon /></n-icon>
       </n-float-button>
       <n-float-button>

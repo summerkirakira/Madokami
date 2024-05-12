@@ -1,5 +1,6 @@
 from .mikan_downloader_engine import MikanDownloaderEngine
 from madokami.db import engine, Session, SQLModel
+from .subscription_manager import MikanSubscriptionManager
 
 
 __metadata__ = {
@@ -18,7 +19,8 @@ __metadata__ = {
     ],
     'engines': [
         'MikanDownloaderEngine'
-    ]
+    ],
+    'subscription_manager': MikanSubscriptionManager()
 }
 
 

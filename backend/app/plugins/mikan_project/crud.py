@@ -36,3 +36,12 @@ def add_rss_storage(session: Session, rss_link: str, name: str) -> MikanRssStora
     session.commit()
     session.refresh(rss_storage)
     return rss_storage
+
+
+def remove_rss_storage(session: Session, rss_id: str) -> Optional[MikanRssStorage]:
+    rss_storage = session.exec(select(MikanRssStorage).where(MikanRssStorage.id == rss_id)).first()
+    if rss_storage is None:
+        return None
+    session.delete(rss_storage)
+    session.commit()
+    return rss_storage
