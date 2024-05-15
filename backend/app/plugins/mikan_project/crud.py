@@ -30,8 +30,8 @@ def record_rss_history(session: Session, rss_link: str, success: bool=True) -> O
     return rss_storage
 
 
-def add_rss_storage(session: Session, rss_link: str, name: str) -> MikanRssStorage:
-    rss_storage = MikanRssStorage(rss_link=rss_link, name=name, last_updated=datetime.now())
+def add_rss_storage(session: Session, rss_link: str, name: str, preferred_pattern: str, banned_pattern: str) -> MikanRssStorage:
+    rss_storage = MikanRssStorage(rss_link=rss_link, name=name, last_updated=datetime.now(), preferred_pattern=preferred_pattern, banned_pattern=banned_pattern)
     session.add(rss_storage)
     session.commit()
     session.refresh(rss_storage)

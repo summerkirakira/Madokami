@@ -26,6 +26,31 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface AddSubscriptionBody
+ */
+export interface AddSubscriptionBody {
+    /**
+     * 
+     * @type {string}
+     * @memberof AddSubscriptionBody
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddSubscriptionBody
+     */
+    'data': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AddSubscriptionBody
+     */
+    'namespace': string;
+}
+/**
+ * 
+ * @export
  * @interface Content
  */
 export interface Content {
@@ -192,6 +217,37 @@ export interface DownloadResponse {
 /**
  * 
  * @export
+ * @interface Engine
+ */
+export interface Engine {
+    /**
+     * 
+     * @type {string}
+     * @memberof Engine
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Engine
+     */
+    'description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Engine
+     */
+    'namespace': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Engine
+     */
+    'cron_str': string | null;
+}
+/**
+ * 
+ * @export
  * @interface HTTPValidationError
  */
 export interface HTTPValidationError {
@@ -337,6 +393,272 @@ export interface MediasResponse {
      * @memberof MediasResponse
      */
     'data'?: Array<Media> | null;
+}
+/**
+ * 
+ * @export
+ * @interface MikanSearchPostBody
+ */
+export interface MikanSearchPostBody {
+    /**
+     * 
+     * @type {string}
+     * @memberof MikanSearchPostBody
+     */
+    'keyword': string;
+}
+/**
+ * 
+ * @export
+ * @interface MikanSearchResponse
+ */
+export interface MikanSearchResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof MikanSearchResponse
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MikanSearchResponse
+     */
+    'success'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof MikanSearchResponse
+     */
+    'title'?: string;
+    /**
+     * 
+     * @type {Array<SearchItem>}
+     * @memberof MikanSearchResponse
+     */
+    'data'?: Array<SearchItem>;
+}
+/**
+ * 
+ * @export
+ * @interface PluginInfo
+ */
+export interface PluginInfo {
+    /**
+     * 
+     * @type {string}
+     * @memberof PluginInfo
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PluginInfo
+     */
+    'namespace': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PluginInfo
+     */
+    'description': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PluginInfo
+     */
+    'is_local_plugin': boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PluginInfo
+     */
+    'is_internal': boolean;
+    /**
+     * 
+     * @type {Array<Engine>}
+     * @memberof PluginInfo
+     */
+    'engines': Array<Engine>;
+}
+/**
+ * 
+ * @export
+ * @interface PluginInfoResponse
+ */
+export interface PluginInfoResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof PluginInfoResponse
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PluginInfoResponse
+     */
+    'success'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof PluginInfoResponse
+     */
+    'title'?: string;
+    /**
+     * 
+     * @type {Array<PluginInfo>}
+     * @memberof PluginInfoResponse
+     */
+    'data'?: Array<PluginInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface SearchItem
+ */
+export interface SearchItem {
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchItem
+     */
+    'title': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchItem
+     */
+    'cover': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchItem
+     */
+    'bangumi_id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchItem
+     */
+    'bangumi_name': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchItem
+     */
+    'subtitle_group_id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchItem
+     */
+    'subtitle_group_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchItem
+     */
+    'group_type': string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof SearchItem
+     */
+    'tags'?: Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchItem
+     */
+    'link': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SearchItem
+     */
+    'last_updated': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SearchItem
+     */
+    'is_checked'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface Subscription
+ */
+export interface Subscription {
+    /**
+     * 
+     * @type {string}
+     * @memberof Subscription
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Subscription
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Subscription
+     */
+    'data': string;
+}
+/**
+ * 
+ * @export
+ * @interface SubscriptionRecord
+ */
+export interface SubscriptionRecord {
+    /**
+     * 
+     * @type {string}
+     * @memberof SubscriptionRecord
+     */
+    'namespace': string;
+    /**
+     * 
+     * @type {Array<Subscription>}
+     * @memberof SubscriptionRecord
+     */
+    'subscriptions': Array<Subscription>;
+}
+/**
+ * 
+ * @export
+ * @interface SubscriptionsAllResponse
+ */
+export interface SubscriptionsAllResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof SubscriptionsAllResponse
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SubscriptionsAllResponse
+     */
+    'success'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof SubscriptionsAllResponse
+     */
+    'title'?: string;
+    /**
+     * 
+     * @type {Array<SubscriptionRecord>}
+     * @memberof SubscriptionsAllResponse
+     */
+    'data'?: Array<SubscriptionRecord> | null;
 }
 /**
  * 
@@ -844,6 +1166,43 @@ export const EngineApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
+         * @summary Refresh All Engines
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        refreshAllEnginesV1EngineRunAllGet: async (xToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('refreshAllEnginesV1EngineRunAllGet', 'xToken', xToken)
+            const localVarPath = `/v1/engine/run-all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Run Engine
          * @param {string} engineNamespace 
          * @param {string} xToken 
@@ -898,6 +1257,19 @@ export const EngineApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Refresh All Engines
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async refreshAllEnginesV1EngineRunAllGet(xToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InfoMessage>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.refreshAllEnginesV1EngineRunAllGet(xToken, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EngineApi.refreshAllEnginesV1EngineRunAllGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary Run Engine
          * @param {string} engineNamespace 
          * @param {string} xToken 
@@ -922,6 +1294,16 @@ export const EngineApiFactory = function (configuration?: Configuration, basePat
     return {
         /**
          * 
+         * @summary Refresh All Engines
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        refreshAllEnginesV1EngineRunAllGet(xToken: string, options?: any): AxiosPromise<InfoMessage> {
+            return localVarFp.refreshAllEnginesV1EngineRunAllGet(xToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Run Engine
          * @param {string} engineNamespace 
          * @param {string} xToken 
@@ -941,6 +1323,18 @@ export const EngineApiFactory = function (configuration?: Configuration, basePat
  * @extends {BaseAPI}
  */
 export class EngineApi extends BaseAPI {
+    /**
+     * 
+     * @summary Refresh All Engines
+     * @param {string} xToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EngineApi
+     */
+    public refreshAllEnginesV1EngineRunAllGet(xToken: string, options?: RawAxiosRequestConfig) {
+        return EngineApiFp(this.configuration).refreshAllEnginesV1EngineRunAllGet(xToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Run Engine
@@ -1211,6 +1605,429 @@ export class MediaApi extends BaseAPI {
      */
     public getMediaV1MediaMediaIdGet(mediaId: string, xToken: string, options?: RawAxiosRequestConfig) {
         return MediaApiFp(this.configuration).getMediaV1MediaMediaIdGet(mediaId, xToken, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * MikanApi - axios parameter creator
+ * @export
+ */
+export const MikanApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Run Engine
+         * @param {string} xToken 
+         * @param {MikanSearchPostBody} mikanSearchPostBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        runEngineV1MikanSearchPost: async (xToken: string, mikanSearchPostBody: MikanSearchPostBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('runEngineV1MikanSearchPost', 'xToken', xToken)
+            // verify required parameter 'mikanSearchPostBody' is not null or undefined
+            assertParamExists('runEngineV1MikanSearchPost', 'mikanSearchPostBody', mikanSearchPostBody)
+            const localVarPath = `/v1/mikan/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(mikanSearchPostBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * MikanApi - functional programming interface
+ * @export
+ */
+export const MikanApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = MikanApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Run Engine
+         * @param {string} xToken 
+         * @param {MikanSearchPostBody} mikanSearchPostBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async runEngineV1MikanSearchPost(xToken: string, mikanSearchPostBody: MikanSearchPostBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MikanSearchResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.runEngineV1MikanSearchPost(xToken, mikanSearchPostBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MikanApi.runEngineV1MikanSearchPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * MikanApi - factory interface
+ * @export
+ */
+export const MikanApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = MikanApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Run Engine
+         * @param {string} xToken 
+         * @param {MikanSearchPostBody} mikanSearchPostBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        runEngineV1MikanSearchPost(xToken: string, mikanSearchPostBody: MikanSearchPostBody, options?: any): AxiosPromise<MikanSearchResponse> {
+            return localVarFp.runEngineV1MikanSearchPost(xToken, mikanSearchPostBody, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * MikanApi - object-oriented interface
+ * @export
+ * @class MikanApi
+ * @extends {BaseAPI}
+ */
+export class MikanApi extends BaseAPI {
+    /**
+     * 
+     * @summary Run Engine
+     * @param {string} xToken 
+     * @param {MikanSearchPostBody} mikanSearchPostBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MikanApi
+     */
+    public runEngineV1MikanSearchPost(xToken: string, mikanSearchPostBody: MikanSearchPostBody, options?: RawAxiosRequestConfig) {
+        return MikanApiFp(this.configuration).runEngineV1MikanSearchPost(xToken, mikanSearchPostBody, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * PluginApi - axios parameter creator
+ * @export
+ */
+export const PluginApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Run Engine
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        runEngineV1PluginInfoGet: async (xToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('runEngineV1PluginInfoGet', 'xToken', xToken)
+            const localVarPath = `/v1/plugin/info`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PluginApi - functional programming interface
+ * @export
+ */
+export const PluginApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PluginApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Run Engine
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async runEngineV1PluginInfoGet(xToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PluginInfoResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.runEngineV1PluginInfoGet(xToken, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PluginApi.runEngineV1PluginInfoGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PluginApi - factory interface
+ * @export
+ */
+export const PluginApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PluginApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Run Engine
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        runEngineV1PluginInfoGet(xToken: string, options?: any): AxiosPromise<PluginInfoResponse> {
+            return localVarFp.runEngineV1PluginInfoGet(xToken, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * PluginApi - object-oriented interface
+ * @export
+ * @class PluginApi
+ * @extends {BaseAPI}
+ */
+export class PluginApi extends BaseAPI {
+    /**
+     * 
+     * @summary Run Engine
+     * @param {string} xToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PluginApi
+     */
+    public runEngineV1PluginInfoGet(xToken: string, options?: RawAxiosRequestConfig) {
+        return PluginApiFp(this.configuration).runEngineV1PluginInfoGet(xToken, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * SubscribeApi - axios parameter creator
+ * @export
+ */
+export const SubscribeApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Add Subscription
+         * @param {string} xToken 
+         * @param {AddSubscriptionBody} addSubscriptionBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addSubscriptionV1SubscribeAddPost: async (xToken: string, addSubscriptionBody: AddSubscriptionBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('addSubscriptionV1SubscribeAddPost', 'xToken', xToken)
+            // verify required parameter 'addSubscriptionBody' is not null or undefined
+            assertParamExists('addSubscriptionV1SubscribeAddPost', 'addSubscriptionBody', addSubscriptionBody)
+            const localVarPath = `/v1/subscribe/add`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(addSubscriptionBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get Downloads
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDownloadsV1SubscribeAllGet: async (xToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('getDownloadsV1SubscribeAllGet', 'xToken', xToken)
+            const localVarPath = `/v1/subscribe/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * SubscribeApi - functional programming interface
+ * @export
+ */
+export const SubscribeApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = SubscribeApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Add Subscription
+         * @param {string} xToken 
+         * @param {AddSubscriptionBody} addSubscriptionBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addSubscriptionV1SubscribeAddPost(xToken: string, addSubscriptionBody: AddSubscriptionBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InfoMessage>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addSubscriptionV1SubscribeAddPost(xToken, addSubscriptionBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SubscribeApi.addSubscriptionV1SubscribeAddPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Get Downloads
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDownloadsV1SubscribeAllGet(xToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubscriptionsAllResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDownloadsV1SubscribeAllGet(xToken, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SubscribeApi.getDownloadsV1SubscribeAllGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * SubscribeApi - factory interface
+ * @export
+ */
+export const SubscribeApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = SubscribeApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Add Subscription
+         * @param {string} xToken 
+         * @param {AddSubscriptionBody} addSubscriptionBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addSubscriptionV1SubscribeAddPost(xToken: string, addSubscriptionBody: AddSubscriptionBody, options?: any): AxiosPromise<InfoMessage> {
+            return localVarFp.addSubscriptionV1SubscribeAddPost(xToken, addSubscriptionBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get Downloads
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDownloadsV1SubscribeAllGet(xToken: string, options?: any): AxiosPromise<SubscriptionsAllResponse> {
+            return localVarFp.getDownloadsV1SubscribeAllGet(xToken, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * SubscribeApi - object-oriented interface
+ * @export
+ * @class SubscribeApi
+ * @extends {BaseAPI}
+ */
+export class SubscribeApi extends BaseAPI {
+    /**
+     * 
+     * @summary Add Subscription
+     * @param {string} xToken 
+     * @param {AddSubscriptionBody} addSubscriptionBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SubscribeApi
+     */
+    public addSubscriptionV1SubscribeAddPost(xToken: string, addSubscriptionBody: AddSubscriptionBody, options?: RawAxiosRequestConfig) {
+        return SubscribeApiFp(this.configuration).addSubscriptionV1SubscribeAddPost(xToken, addSubscriptionBody, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get Downloads
+     * @param {string} xToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SubscribeApi
+     */
+    public getDownloadsV1SubscribeAllGet(xToken: string, options?: RawAxiosRequestConfig) {
+        return SubscribeApiFp(this.configuration).getDownloadsV1SubscribeAllGet(xToken, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

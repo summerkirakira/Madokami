@@ -11,8 +11,16 @@ import {
 import DownloadContainer from '@/components/DownloadContainer.vue';
 import { getDownloads } from '@/services/downloadService';
 import { type DownloadData } from '@/client';
+import { runAllEngines } from '@/services/engineService';
+import { useMessageStore } from '@/stores/message';
 
 export default {
+  setup() {
+    const messageStore = useMessageStore();
+    return {
+      messageStore,
+    }
+  },
   mounted() {
     this.fetchMedia();
     window.addEventListener('resize', () => {
@@ -55,12 +63,17 @@ export default {
     async fetchDownloads() {
           this.downloads = (await getDownloads()).data.data!;
       },
-      async repeatFetchDownloads() {
-          while (this.needRefresh) {
-              await this.fetchDownloads();
-              await new Promise(resolve => setTimeout(resolve, 1000));
-          }
-      },
+    async repeatFetchDownloads() {
+        while (this.needRefresh) {
+            await this.fetchDownloads();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+    },
+    handleRefresh() {
+      runAllEngines().then(() => {
+        this.messageStore.setMessage('已刷新订阅', 'success');
+      });
+    },
   },
 }
 
@@ -95,7 +108,7 @@ export default {
           <DownloadContainer :downloads="downloads" />
         </n-popover>
       </n-float-button>
-      <n-float-button>
+      <n-float-button @click="handleRefresh">
         <n-popover placement="left" trigger="hover" scrollable>
           <template #trigger>
             <n-icon><refresh-icon /></n-icon>

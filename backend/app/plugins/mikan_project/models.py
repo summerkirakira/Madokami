@@ -2,6 +2,8 @@ from pydantic import BaseModel
 from datetime import datetime
 from sqlmodel import Field, SQLModel, Relationship
 from typing import Optional, List, Union
+from madokami.api.models import InfoMessage
+from madokami.plugin.backend.models import SearchItem
 
 
 class RssFeed(BaseModel):
@@ -55,6 +57,13 @@ class MikanRssStorage(SQLModel, table=True):
     banned_pattern: Optional[str] = Field()
     preferred_pattern: Optional[str] = Field()
     history: list[MikanRssHistory] = Relationship(back_populates="rss")
+
+
+class MikanSearchPostBody(BaseModel):
+    keyword: str
+
+class MikanSearchResponse(InfoMessage):
+    data: list[SearchItem] = []
 
 
 class MikanInfoPage(BaseModel):

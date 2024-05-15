@@ -1,6 +1,7 @@
 from .mikan_downloader_engine import MikanDownloaderEngine
 from madokami.db import engine, Session, SQLModel
 from .subscription_manager import MikanSubscriptionManager
+from .api import mikan_router
 
 
 __metadata__ = {

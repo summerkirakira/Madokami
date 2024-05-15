@@ -48,7 +48,11 @@ class MikanRssParser(Parser):
 
             episode = get_episode(title)
             if bangumi_title == "" or not same_bangumi:
-                search_url = f'https://mikanani.me/Home/Search?searchstr={quote(title)}'
+                if len(title) > 20:
+                    search_title = title[:20]
+                else:
+                    search_title = title
+                search_url = f'https://mikanani.me/Home/Search?searchstr={quote(search_title)}'
 
                 response = requester.request(search_url, method='GET')
                 try:
