@@ -588,6 +588,87 @@ export interface SearchItem {
 /**
  * 
  * @export
+ * @interface Setting
+ */
+export interface Setting {
+    /**
+     * 
+     * @type {string}
+     * @memberof Setting
+     */
+    'key': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Setting
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Setting
+     */
+    'description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Setting
+     */
+    'value': string | null;
+}
+/**
+ * 
+ * @export
+ * @interface SettingRecord
+ */
+export interface SettingRecord {
+    /**
+     * 
+     * @type {string}
+     * @memberof SettingRecord
+     */
+    'namespace': string;
+    /**
+     * 
+     * @type {Array<Setting>}
+     * @memberof SettingRecord
+     */
+    'settings': Array<Setting>;
+}
+/**
+ * 
+ * @export
+ * @interface SettingsAllResponse
+ */
+export interface SettingsAllResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof SettingsAllResponse
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SettingsAllResponse
+     */
+    'success'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof SettingsAllResponse
+     */
+    'title'?: string;
+    /**
+     * 
+     * @type {Array<SettingRecord>}
+     * @memberof SettingsAllResponse
+     */
+    'data'?: Array<SettingRecord> | null;
+}
+/**
+ * 
+ * @export
  * @interface Subscription
  */
 export interface Subscription {
@@ -659,6 +740,25 @@ export interface SubscriptionsAllResponse {
      * @memberof SubscriptionsAllResponse
      */
     'data'?: Array<SubscriptionRecord> | null;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateSettingBody
+ */
+export interface UpdateSettingBody {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateSettingBody
+     */
+    'key': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateSettingBody
+     */
+    'value': string;
 }
 /**
  * 
@@ -1836,6 +1936,198 @@ export class PluginApi extends BaseAPI {
      */
     public runEngineV1PluginInfoGet(xToken: string, options?: RawAxiosRequestConfig) {
         return PluginApiFp(this.configuration).runEngineV1PluginInfoGet(xToken, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * SettingsApi - axios parameter creator
+ * @export
+ */
+export const SettingsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get Settings
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSettingsV1SettingsAllGet: async (xToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('getSettingsV1SettingsAllGet', 'xToken', xToken)
+            const localVarPath = `/v1/settings/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Update Settings
+         * @param {string} xToken 
+         * @param {UpdateSettingBody} updateSettingBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateSettingsV1SettingsUpdatePost: async (xToken: string, updateSettingBody: UpdateSettingBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('updateSettingsV1SettingsUpdatePost', 'xToken', xToken)
+            // verify required parameter 'updateSettingBody' is not null or undefined
+            assertParamExists('updateSettingsV1SettingsUpdatePost', 'updateSettingBody', updateSettingBody)
+            const localVarPath = `/v1/settings/update`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateSettingBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * SettingsApi - functional programming interface
+ * @export
+ */
+export const SettingsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = SettingsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Get Settings
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getSettingsV1SettingsAllGet(xToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SettingsAllResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getSettingsV1SettingsAllGet(xToken, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SettingsApi.getSettingsV1SettingsAllGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Update Settings
+         * @param {string} xToken 
+         * @param {UpdateSettingBody} updateSettingBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateSettingsV1SettingsUpdatePost(xToken: string, updateSettingBody: UpdateSettingBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InfoMessage>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateSettingsV1SettingsUpdatePost(xToken, updateSettingBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SettingsApi.updateSettingsV1SettingsUpdatePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * SettingsApi - factory interface
+ * @export
+ */
+export const SettingsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = SettingsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Get Settings
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getSettingsV1SettingsAllGet(xToken: string, options?: any): AxiosPromise<SettingsAllResponse> {
+            return localVarFp.getSettingsV1SettingsAllGet(xToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Update Settings
+         * @param {string} xToken 
+         * @param {UpdateSettingBody} updateSettingBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateSettingsV1SettingsUpdatePost(xToken: string, updateSettingBody: UpdateSettingBody, options?: any): AxiosPromise<InfoMessage> {
+            return localVarFp.updateSettingsV1SettingsUpdatePost(xToken, updateSettingBody, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * SettingsApi - object-oriented interface
+ * @export
+ * @class SettingsApi
+ * @extends {BaseAPI}
+ */
+export class SettingsApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get Settings
+     * @param {string} xToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SettingsApi
+     */
+    public getSettingsV1SettingsAllGet(xToken: string, options?: RawAxiosRequestConfig) {
+        return SettingsApiFp(this.configuration).getSettingsV1SettingsAllGet(xToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Update Settings
+     * @param {string} xToken 
+     * @param {UpdateSettingBody} updateSettingBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SettingsApi
+     */
+    public updateSettingsV1SettingsUpdatePost(xToken: string, updateSettingBody: UpdateSettingBody, options?: RawAxiosRequestConfig) {
+        return SettingsApiFp(this.configuration).updateSettingsV1SettingsUpdatePost(xToken, updateSettingBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

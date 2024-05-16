@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
 from madokami.drivers.deps import SessionDep, get_client_id
-from madokami.crud import get_engines_schedule_by_plugin_namespace
 from .models import MikanSearchResponse, MikanSearchPostBody
 from urllib.parse import quote
 from .mikan_search_engine import MikanSearchEngine
