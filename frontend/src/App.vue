@@ -1,37 +1,43 @@
 <script lang="ts">
-import { RouterView } from "vue-router";
-import MessageContainer from "./components/MessageContainer.vue";
-import { NMessageProvider } from "naive-ui";
+import AppContainer from './components/AppContainer.vue';
+import { NConfigProvider, darkTheme, NGlobalStyle, lightTheme } from 'naive-ui';
+import { useThemeStore } from './stores/theme';
 
 
 export default {
   components: {
-    RouterView,
-    MessageContainer,
-    NMessageProvider
+    AppContainer,
+    NConfigProvider,
+    NGlobalStyle
   },
+  setup() {
+    const themeStore = useThemeStore();
+    return {
+      darkTheme,
+      themeStore
+    }
+  },
+  computed: {
+    theme() {
+      return this.themeStore.dark ? this.darkTheme : lightTheme;
+    }
+  }
 }
 
 </script>
 
 <template>
-  <n-message-provider>
-  <MessageContainer />
-  <header>
-      <RouterView class="main" />
-  </header>
-  </n-message-provider>
+  <NConfigProvider :theme="theme" :theme-overrides="themeStore.theme">
+    <AppContainer />
+    <NGlobalStyle />
+  </NConfigProvider>
 </template>
 
 <style scoped>
 header {
   line-height: 1.5;
-  max-height: 100vh;
-  max-width: 100vw;
+  /* max-height: 100vh;
+  max-width: 100vw; */
 }
 
-header .main {
-  width: 100vw;
-  height: 100vh;
-}
 </style>

@@ -7,7 +7,7 @@ import { RouterLink, RouterView } from "vue-router";
     <img
       alt="Madokami logo"
       class="logo"
-      src="@/assets/logo.svg"
+      src="@/assets/logo.png"
       width="125"
       height="125"
     />

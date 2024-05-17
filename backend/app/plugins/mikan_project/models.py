@@ -17,6 +17,7 @@ class RssFeed(BaseModel):
         episode: int
         episode_title: Optional[str] = None
         bangumi_id: Optional[int] = None
+        cover: Optional[str] = None
     title: str
     link: str
     description: str

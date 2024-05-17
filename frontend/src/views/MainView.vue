@@ -4,12 +4,15 @@ import MainMenu from '@/components/MainMenu.vue'
 import MainTitleBar from '@/components/MainTitleBar.vue'
 
 import { RouterView } from 'vue-router'
+import { NScrollbar, NConfigProvider, darkTheme } from 'naive-ui';
 
 export default {
   components: {
     RouterView,
     MainMenu,
-    MainTitleBar
+    MainTitleBar,
+    NScrollbar,
+    NConfigProvider
   }
 }
 
@@ -17,10 +20,14 @@ export default {
 
 
 <template>
-  <MainTitleBar />
-  <div class="container">
-    <MainMenu />
-    <RouterView />
+  <div>
+    <MainTitleBar />
+    <div class="container">
+      <MainMenu />
+      <n-scrollbar style="max-height: calc(100vh - 60px);">
+        <RouterView />
+      </n-scrollbar>
+    </div>
   </div>
 </template>
 
@@ -28,6 +35,7 @@ export default {
 <style scoped>
 .container {
   display: grid;
+  /* height: calc(100vh - 200px); */
 }
 
 @media (min-width: 1024px) {

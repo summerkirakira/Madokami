@@ -111,6 +111,9 @@ class MikanDownloaderEngine(FileDownloaderEngine):
         with Session(engine) as session:
             record_rss_history(session, rss_storage.rss_link, success=True)
 
+
+    # def _download_cover(self, rss_data: RssFeed):
+
     def _download(self, rss_data: RssFeed, banned_pattern: str = None, preferred_pattern: str = None):
         # is_remove_duplicate = get_config('mikan_project.remove_duplicate', "1")
         rss_items = rss_data.items

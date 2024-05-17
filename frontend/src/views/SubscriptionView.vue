@@ -45,6 +45,7 @@ export default {
           pluginNamespace: plugin?.namespace,
           subscriptions: subscription.subscriptions.map(sub => {
             return {
+              id: sub.id,
               name: sub.name,
               value: sub.data,
             };
@@ -62,7 +63,7 @@ export default {
 <template>
   <SubscriptionItem
     v-for="record in subscriptionRecords"
-    :need-refresh="refresh"
+    @need-refresh="refresh"
     :key="record.pluginNamespace"
     :pluginName="record.pluginName!"
     :pluginNamespace="record.pluginNamespace!"

@@ -2,7 +2,7 @@
 
 import DownloadItem from './DownloadItem.vue';
 import { type DownloadData } from '@/client';
-import { getDownloads } from '@/services/downloadService';
+import { NScrollbar } from 'naive-ui';
 
 
 export default {
@@ -14,6 +14,7 @@ export default {
     },
     components: {
         DownloadItem,
+        NScrollbar
     },
     mounted() {
         
@@ -35,7 +36,11 @@ export default {
 </script>
 
 <template>
-<DownloadItem v-for="d in downloads" :key="d.id" :data="d" />
+    <n-scrollbar style="max-height: 300px">
+        <div>
+            <DownloadItem v-for="d in downloads" :key="d.id" :data="d" />
+        </div>
+    </n-scrollbar>
 </template>
 
 <style scoped>

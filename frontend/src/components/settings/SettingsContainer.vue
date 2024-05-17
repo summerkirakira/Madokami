@@ -4,13 +4,22 @@ import { getSettings } from '@/services/settingService';
 import { getPluginByNamespace } from '@/utils/plugin';
 import { getPluginInfos } from '@/services/pluginService';
 import { type SettingRecord } from '@/client';
+import { addSetting } from '@/services/settingService';
+import { useMessageStore } from '@/stores/message';
+import WebSettingsContainer from './WebSettingsContainer.vue';
 
 export default {
   components: {
     SettingsItem,
+    WebSettingsContainer
   },
   mounted() {
     this.fetchSettings();
+  },
+  setup() {
+    return {
+      messageStore: useMessageStore(),
+    };
   },
   data() {
     return {
@@ -37,12 +46,29 @@ export default {
         }
         this.settings = settingsRaw;
     },
+    updateSettings() {
+      console.log(this.settings)
+      this.settings.forEach(async config => {
+        config.settings.forEach(async setting => {
+          // console.log(setting)
+          await addSetting(setting.key, setting.value)
+        });
+      })
+      this.messageStore.setMessage("设置已保存", "success")
+    },
   },
 };
 </script>
 
 <template>
   <div>
-    <SettingsItem v-for="setting in settings" :key="setting.namespace" :pluginName="setting.namespace" :settings="setting.settings" />
+    <WebSettingsContainer @update:settings="updateSettings"/>
+    <SettingsItem class="setting-item" v-for="setting in settings" :key="setting.namespace" :pluginName="setting.namespace" :settings="setting.settings"/>
   </div>
 </template>
+
+<style scoped>
+.setting-item {
+  margin-top: 15px;
+}
+</style>

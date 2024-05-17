@@ -156,3 +156,7 @@ def apply_pattern_filter(items: list[RssFeed.Item], banned_pattern: Optional[str
         if not is_find:
             filtered_items.append(value[0])
     return filtered_items
+
+
+def remove_brackets(title: str) -> str:
+    return re.sub(r'\[.*?\]', '', title)

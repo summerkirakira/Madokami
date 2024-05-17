@@ -292,6 +292,37 @@ export interface InfoMessage {
 /**
  * 
  * @export
+ * @interface LogResponse
+ */
+export interface LogResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof LogResponse
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof LogResponse
+     */
+    'success'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof LogResponse
+     */
+    'title'?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof LogResponse
+     */
+    'data'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
  * @interface Media
  */
 export interface Media {
@@ -511,6 +542,25 @@ export interface PluginInfoResponse {
      * @memberof PluginInfoResponse
      */
     'data'?: Array<PluginInfo>;
+}
+/**
+ * 
+ * @export
+ * @interface RemoveSubscriptionBody
+ */
+export interface RemoveSubscriptionBody {
+    /**
+     * 
+     * @type {string}
+     * @memberof RemoveSubscriptionBody
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RemoveSubscriptionBody
+     */
+    'namespace': string;
 }
 /**
  * 
@@ -758,7 +808,7 @@ export interface UpdateSettingBody {
      * @type {string}
      * @memberof UpdateSettingBody
      */
-    'value': string;
+    'value': string | null;
 }
 /**
  * 
@@ -1446,6 +1496,117 @@ export class EngineApi extends BaseAPI {
      */
     public runEngineV1EngineRunGet(engineNamespace: string, xToken: string, options?: RawAxiosRequestConfig) {
         return EngineApiFp(this.configuration).runEngineV1EngineRunGet(engineNamespace, xToken, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * LogApi - axios parameter creator
+ * @export
+ */
+export const LogApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary  Get Log All
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getLogAllV1LogAllGet: async (xToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('getLogAllV1LogAllGet', 'xToken', xToken)
+            const localVarPath = `/v1/log/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * LogApi - functional programming interface
+ * @export
+ */
+export const LogApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = LogApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary  Get Log All
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getLogAllV1LogAllGet(xToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LogResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getLogAllV1LogAllGet(xToken, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LogApi.getLogAllV1LogAllGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * LogApi - factory interface
+ * @export
+ */
+export const LogApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = LogApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary  Get Log All
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getLogAllV1LogAllGet(xToken: string, options?: any): AxiosPromise<LogResponse> {
+            return localVarFp.getLogAllV1LogAllGet(xToken, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * LogApi - object-oriented interface
+ * @export
+ * @class LogApi
+ * @extends {BaseAPI}
+ */
+export class LogApi extends BaseAPI {
+    /**
+     * 
+     * @summary  Get Log All
+     * @param {string} xToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LogApi
+     */
+    public getLogAllV1LogAllGet(xToken: string, options?: RawAxiosRequestConfig) {
+        return LogApiFp(this.configuration).getLogAllV1LogAllGet(xToken, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2219,6 +2380,49 @@ export const SubscribeApiAxiosParamCreator = function (configuration?: Configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Remove Subscription
+         * @param {string} xToken 
+         * @param {RemoveSubscriptionBody} removeSubscriptionBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        removeSubscriptionV1SubscribeRemovePost: async (xToken: string, removeSubscriptionBody: RemoveSubscriptionBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('removeSubscriptionV1SubscribeRemovePost', 'xToken', xToken)
+            // verify required parameter 'removeSubscriptionBody' is not null or undefined
+            assertParamExists('removeSubscriptionV1SubscribeRemovePost', 'removeSubscriptionBody', removeSubscriptionBody)
+            const localVarPath = `/v1/subscribe/remove`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(removeSubscriptionBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -2256,6 +2460,20 @@ export const SubscribeApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['SubscribeApi.getDownloadsV1SubscribeAllGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary Remove Subscription
+         * @param {string} xToken 
+         * @param {RemoveSubscriptionBody} removeSubscriptionBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async removeSubscriptionV1SubscribeRemovePost(xToken: string, removeSubscriptionBody: RemoveSubscriptionBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InfoMessage>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.removeSubscriptionV1SubscribeRemovePost(xToken, removeSubscriptionBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SubscribeApi.removeSubscriptionV1SubscribeRemovePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -2286,6 +2504,17 @@ export const SubscribeApiFactory = function (configuration?: Configuration, base
          */
         getDownloadsV1SubscribeAllGet(xToken: string, options?: any): AxiosPromise<SubscriptionsAllResponse> {
             return localVarFp.getDownloadsV1SubscribeAllGet(xToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Remove Subscription
+         * @param {string} xToken 
+         * @param {RemoveSubscriptionBody} removeSubscriptionBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        removeSubscriptionV1SubscribeRemovePost(xToken: string, removeSubscriptionBody: RemoveSubscriptionBody, options?: any): AxiosPromise<InfoMessage> {
+            return localVarFp.removeSubscriptionV1SubscribeRemovePost(xToken, removeSubscriptionBody, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2320,6 +2549,19 @@ export class SubscribeApi extends BaseAPI {
      */
     public getDownloadsV1SubscribeAllGet(xToken: string, options?: RawAxiosRequestConfig) {
         return SubscribeApiFp(this.configuration).getDownloadsV1SubscribeAllGet(xToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Remove Subscription
+     * @param {string} xToken 
+     * @param {RemoveSubscriptionBody} removeSubscriptionBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SubscribeApi
+     */
+    public removeSubscriptionV1SubscribeRemovePost(xToken: string, removeSubscriptionBody: RemoveSubscriptionBody, options?: RawAxiosRequestConfig) {
+        return SubscribeApiFp(this.configuration).removeSubscriptionV1SubscribeRemovePost(xToken, removeSubscriptionBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

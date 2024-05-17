@@ -1,15 +1,13 @@
 <script lang="ts">
-import { defineComponent, h, type Component } from 'vue'
-import { NIcon, useMessage, NSplit, NMenu } from 'naive-ui'
+import { h, type Component } from 'vue'
+import { NIcon, NSplit, NMenu } from 'naive-ui'
 import type { MenuOption } from 'naive-ui'
-import { RouterLink } from 'vue-router'
-import { ref } from 'vue'
 
 import {
   BookOutline as BookIcon,
-  PersonOutline as PersonIcon,
   SettingsOutline as SettingsIcon,
-  HomeOutline as HomeIcon
+  HomeOutline as HomeIcon,
+  DocumentTextOutline as LogIcon
 } from '@vicons/ionicons5'
 
 
@@ -19,14 +17,20 @@ function renderIcon (icon: Component) {
 
 const menuOptions: MenuOption[] = [
   {
-    label: "媒体库",
-    key: 'hear-the-wind-sing',
+    label: '媒体库',
+    key: 'media',
     icon: renderIcon(HomeIcon)
   },
   {
     label: '订阅管理',
-    key: 'subscription-manage',
+    key: 'subscriptions',
     icon: renderIcon(BookIcon),
+    disabled: false,
+  },
+  {
+    label: '日志',
+    key: 'logs',
+    icon: renderIcon(LogIcon),
     disabled: false,
   },
   {
@@ -66,11 +70,20 @@ export default {
   methods: {
     updateWidth() {
       this.menuMode = isHorizontal()
+    },
+    handleSelect(key: string, item: MenuOption) {
+      // console.log(key)
+      this.$router.push({ name: key })
     }
   },
   components: {
     NSplit,
     NMenu
+  },
+  computed: {
+    currentPage() {
+      return this.$route.name?.toString() || 'media'
+    }
   }
 }
 
@@ -78,8 +91,10 @@ export default {
 
 <template>
   <n-menu
+    :on-update:value="handleSelect"
     :mode="menuMode"
     :options="menuOptions"
+    :value="currentPage"
     responsive
   />
 </template>

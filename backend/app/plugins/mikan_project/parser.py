@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 from .search_util import get_search_results
 from madokami.internal.default_plugins.default_requester import DefaultRequester
 from urllib.parse import quote
-from .utils import get_episode, get_season, parse_subtitle_type
+from .utils import get_episode, get_season, parse_subtitle_type, remove_brackets
 from bs4 import BeautifulSoup
 from madokami.plugin.backend.models import SearchItem
 import datetime
@@ -38,6 +38,7 @@ class MikanRssParser(Parser):
         requester = DefaultRequester()
         bangumi_link = ""
         bangumi_title = ""
+        cover = ""
         mikan_id = 0
         bangumi_id: Optional[int] = None
         for item in items:
@@ -48,10 +49,7 @@ class MikanRssParser(Parser):
 
             episode = get_episode(title)
             if bangumi_title == "" or not same_bangumi:
-                if len(title) > 20:
-                    search_title = title[:20]
-                else:
-                    search_title = title
+                search_title = remove_brackets(title)
                 search_url = f'https://mikanani.me/Home/Search?searchstr={quote(search_title)}'
 
                 response = requester.request(search_url, method='GET')
@@ -67,6 +65,7 @@ class MikanRssParser(Parser):
 
                 mikan_id = int(bangumi_link.split('/')[-1])
                 bangumi_title = search_results.bangumis[0].title
+                cover = search_results.bangumis[0].cover
 
             if mikan_id not in self.episode_cache:
                 info_page_detail = self.mikan_info_parser.parse(requester.request(bangumi_link, method='GET').text)
@@ -207,7 +206,7 @@ class MikanSearchItemParser(Parser):
 class MikanInfoPageParser(Parser):
     def parse(self, data) -> MikanInfoPage:
         root = BeautifulSoup(data, 'html.parser')
-        bangumi_id = re.search(r'https://bgm.tv/subject/(\d+)', data)
+        bangumi_id = re.search(r'//bgm.tv/subject/(\d+)', data)
         if bangumi_id is not None:
             bangumi_id = int(bangumi_id.group(1))
         cover = root.select_one('div.bangumi-poster').get('style').replace('background-image: url(\'', '').replace(

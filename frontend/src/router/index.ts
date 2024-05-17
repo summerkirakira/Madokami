@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
 import { useUserStore } from "@/stores/user";
 import MainView from "@/views/MainView.vue";
 
@@ -14,11 +13,9 @@ const router = createRouter({
       path: "/login",
       name: "login",
       component: () => import("../views/LoginPage.vue"),
-    },
-    {
-      path: "/",
-      name: "home",
-      component: HomeView,
+      meta: {
+        title: "登录",
+      },
     },
     {
       path: "/library",
@@ -29,16 +26,33 @@ const router = createRouter({
           name: "subscriptions",
           path: "subscriptions",
           component: () => import("../views/SubscriptionView.vue"),
+          meta: {
+            title: "我的订阅",
+          },
         },
         {
           name: "media",
           path: 'media',
-          component: () => import("../views/MediaView.vue")
+          component: () => import("../views/MediaView.vue"),
+          meta: {
+            title: "媒体库",
+          },
         },
         {
           name: "settings",
           path: "settings",
           component: () => import("../views/SettingsView.vue"),
+          meta: {
+            title: "设置",
+          },
+        },
+        {
+          name: "logs",
+          path: "logs",
+          component: () => import("../views/LogView.vue"),
+          meta: {
+            title: "日志",
+          },
         }
       ]
     }
@@ -48,6 +62,11 @@ const router = createRouter({
 const userStore = useUserStore(pinia);
 
 router.beforeEach((to, from, next) => {
+  document.title = `${to.meta.title} - Madokami`;
+  if (to.path === "/") {
+    next({ name: "media" });
+    return;
+  }
   if (to.name !== "login" && !userStore.isLogin) {
     next({ name: "login" });
   } else {

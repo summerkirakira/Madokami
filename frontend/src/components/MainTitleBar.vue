@@ -12,7 +12,7 @@ export default {
     <img
       alt="Madokami logo"
       class="logo"
-      src="@/assets/logo.svg"
+      src="@/assets/logo.png"
       width="40"
       height="40"
     />
@@ -35,8 +35,9 @@ hr {
 }
 
 h2 {
-    margin-left: 1rem;
-    font-size: 1.6rem;
+    margin-left: 0.6rem;
+    font-size: 1.7rem;
     font-weight: 500;
+    color: #f67ba4;
 }
 </style>

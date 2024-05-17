@@ -13,7 +13,7 @@ export async function getSettings() {
     return await settingsApi.getSettingsV1SettingsAllGet(token);
 }
 
-export async function addSetting(key: string, value: string) {
+export async function addSetting(key: string, value: string | null) {
     const token = getToken();
     if (!token) {
         throw new Error("User not logged in");

@@ -1,11 +1,13 @@
 <script lang="ts">
 import { NCard, NDataTable, NIcon, NModal, NButton, NSpace, NInput, NAutoComplete } from 'naive-ui';
 import { AddOutline as AddIcon } from '@vicons/ionicons5';
-import { ref } from 'vue';
+import { ref, h } from 'vue';
 
 import { SearchOutline } from '@vicons/ionicons5';
 import MikanSubscriptionAdd from './MikanSubscriptionAdd.vue';
 import { addSubscription } from '@/services/subscribeService';
+import { deleteSubscription } from '@/services/subscribeService';
+import { useMessageStore } from '@/stores/message';
 
 export default {
     emits: ['need-refresh'],
@@ -19,7 +21,7 @@ export default {
             required: true,
         },
         subscriptions: {
-            type: Array as () => {name: string, value: string}[],
+            type: Array as () => {id: string, name: string, value: string}[],
             required: true,
         },
 
@@ -39,15 +41,17 @@ export default {
     },
     setup() {
         const showModal = ref(false);
+        const messageStore = useMessageStore();
         return {
             showModal,
+            messageStore
         }
     },
     data() {
         return {
             newItemName: '',
             newItemValue: '',
-            isLoading: false,
+            isLoading: false
         }
     },
     methods: {
@@ -63,12 +67,34 @@ export default {
                 this.showModal = false;
             });
             this.$emit('need-refresh');
+        },
+        async removeSubscription(id: string) {
+            deleteSubscription(this.pluginNamespace, id).then(() => {
+                this.messageStore.setMessage('删除成功', 'success');
+                this.$emit('need-refresh');
+            });
         }
+    },
+    computed: {
+        columns() {
+            return [
+                { title: '订阅名', key: 'name' },
+                { title: '订阅地址', key: 'value' },
+                { title: '操作', key: 'action', render: (row: {id: string, name: string, value: string}) => {
+                    return h(NSpace, null, {
+                        default: () => [
+                            h(NButton, { type: 'error', size: 'small', onClick: () => this.removeSubscription(row.id) }, { default: () => '删除' }),
+                        ]
+                    });
+                } }
+            ];
+        }   
     }
 }
 </script>
 
 <template>
+    <div>
     <NCard :title="pluginName">
         <template #header-extra>
         <NButton circle @click="showModal = true">
@@ -81,10 +107,7 @@ export default {
         </template>
         <NDataTable
             :data="subscriptions"
-            :columns="[
-                { title: '订阅名', key: 'name' },
-                { title: '订阅地址', key: 'value' },
-            ]"
+            :columns="columns"
         />
     </NCard>
 
@@ -98,9 +121,6 @@ export default {
       role="dialog"
       aria-modal="true"
     >
-      <template #header-extra>
-        噢！
-      </template>
       <MikanSubscriptionAdd v-if="pluginNamespace === 'summerkirakira.mikan_project'" @search-result="receiveMikanResult" />
       <h3>订阅名</h3>
       <n-input :placeholder="''" v-model:value="newItemName" />
@@ -114,6 +134,7 @@ export default {
       </template>
     </n-card>
   </n-modal>
+</div>
 
 </template>
 

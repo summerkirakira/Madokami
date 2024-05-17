@@ -20,3 +20,11 @@ export async function addSubscription(namespace: string, name: string, value: st
     }
     return await subscribeApi.addSubscriptionV1SubscribeAddPost(token, {namespace, name, data: value});
 }
+
+export async function deleteSubscription(namespace: string, id: string) {
+    const token = getToken();
+    if (!token) {
+        throw new Error("User not logged in");
+    }
+    return await subscribeApi.removeSubscriptionV1SubscribeRemovePost(token, {namespace, id})
+}
