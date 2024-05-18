@@ -31,7 +31,6 @@ export const useUserStore = defineStore("user", {
   },
   actions: {
     bindUser(username: string, token: string) {
-
       let user = {
         username,
         token,

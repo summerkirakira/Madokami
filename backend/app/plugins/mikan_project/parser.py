@@ -31,6 +31,12 @@ class MikanRssParser(Parser):
         self.mikan_info_parser = MikanInfoPageParser()
         self.bangumi_requester = BangumiRequester()
 
+    def search_mikan(self, title: str):
+        search_url = f'https://mikanani.me/Home/Search?searchstr={quote(title)}'
+        response = self.requester.request(search_url, method='GET')
+        search_results = get_search_results(response.text)
+        return search_results
+
     def parse(self, data: str, same_bangumi: bool = False) -> RssFeed:
         root = ET.fromstring(data)
         items = root.findall('channel/item')
@@ -49,14 +55,17 @@ class MikanRssParser(Parser):
 
             episode = get_episode(title)
             if bangumi_title == "" or not same_bangumi:
-                search_title = remove_brackets(title)
-                search_url = f'https://mikanani.me/Home/Search?searchstr={quote(search_title)}'
 
-                response = requester.request(search_url, method='GET')
                 try:
-                    search_results = get_search_results(response.text)
+                    search_results = self.search_mikan(title)
                 except Exception as e:
                     continue
+
+                if len(search_results.bangumis) == 0:
+                    try:
+                        search_results = self.search_mikan(remove_brackets(title))
+                    except Exception as e:
+                        continue
 
                 if len(search_results.bangumis) != 1:
                     continue
@@ -75,7 +84,6 @@ class MikanRssParser(Parser):
                 else:
                     episode_info = self.bangumi_requester.get_episode_info(bangumi_id)
                     self.episode_cache[mikan_id] = episode_info
-
 
             season = get_season(title)
 

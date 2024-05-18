@@ -6,13 +6,15 @@ import { NCard, NEllipsis, NBadge, NFloatButton, NIcon, NFloatButtonGroup, NPopo
 import { 
   ArrowDownCircleOutline as DownloadIcon,
   SettingsOutline as SettingsIcon,
-  RefreshOutline as RefreshIcon
+  RefreshOutline as RefreshIcon,
+  RemoveCircleOutline as RemoveIcon,
 } from '@vicons/ionicons5'
 import DownloadContainer from '@/components/DownloadContainer.vue';
 import { getDownloads } from '@/services/downloadService';
 import { type DownloadData } from '@/client';
 import { runAllEngines } from '@/services/engineService';
 import { useMessageStore } from '@/stores/message';
+import { clearAll } from '@/services/downloadService';
 
 export default {
   setup() {
@@ -52,6 +54,7 @@ export default {
     NPopover,
     SettingsIcon,
     RefreshIcon,
+    RemoveIcon
   },
   methods: {
     async fetchMedia() {
@@ -74,6 +77,12 @@ export default {
         this.messageStore.setMessage('已刷新订阅', 'success');
       });
     },
+    handleClearAll() {
+      clearAll().then(() => {
+        this.messageStore.setMessage('已清除所有下载任务', 'success');
+      });
+    },
+  
   },
 }
 
@@ -116,12 +125,15 @@ export default {
           <div>立即刷新订阅</div>
         </n-popover>
       </n-float-button>
-      <!-- <n-float-button>
-        <n-icon><download-icon /></n-icon>
+      <n-float-button @click="handleClearAll">
+        <n-popover placement="left" trigger="hover" scrollable>
+          <template #trigger>
+            <n-icon><remove-icon /></n-icon>
+          </template>
+          <div>清除下载队列中所有的任务</div>
+        </n-popover>
       </n-float-button>
-      <n-float-button>
-        <n-icon><download-icon /></n-icon>
-      </n-float-button> -->
+    
     </n-float-button-group>
   </div>
 </template>

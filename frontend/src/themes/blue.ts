@@ -11,6 +11,13 @@ const blueTheme: GlobalThemeOverrides = {
     },
     Switch: {
         railColorActive: "#4dd2ff",
+    },
+    Button: {
+        colorHoverPrimary: "#66d8ff",
+        borderHoverPrimary: "1px solid #4dd2ff",
+        borderFocusPrimary: "1px solid #4dd2ff",
+        colorFocusPrimary: "#00abe6",
+        colorPressedPrimary: "#00abe6",
     }
 }
 

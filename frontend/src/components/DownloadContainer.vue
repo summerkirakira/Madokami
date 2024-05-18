@@ -38,7 +38,8 @@ export default {
 <template>
     <n-scrollbar style="max-height: 300px">
         <div>
-            <DownloadItem v-for="d in downloads" :key="d.id" :data="d" />
+            <DownloadItem v-if="downloads.length > 0" v-for="d in downloads" :key="d.id" :data="d" />
+            <p v-else>正在进行的下载项会显示在这里</p>
         </div>
     </n-scrollbar>
 </template>

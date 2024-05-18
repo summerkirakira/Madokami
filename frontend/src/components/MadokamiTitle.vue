@@ -17,10 +17,10 @@ import { RouterLink, RouterView } from "vue-router";
       一个轻量的ACGN订阅与管理平台
     </h3>
   </div>
-  <nav>
+  <!-- <nav>
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/about">About</RouterLink>
-  </nav>
+  </nav> -->
   </div>
 </template>
 
@@ -39,7 +39,7 @@ nav {
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  color: #000;
 }
 
 nav a.router-link-exact-active:hover {
@@ -49,7 +49,7 @@ nav a.router-link-exact-active:hover {
 nav a {
   display: inline-block;
   padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  border-left: 1px solid #000;
 }
 
 nav a:first-of-type {
@@ -63,10 +63,12 @@ h1 {
   font-size: 2.6rem;
   position: relative;
   top: -10px;
+  color: #f67ba4;
 }
 
 h3 {
   font-size: 1.2rem;
+  color: #f67ba471;
 }
 
 .greetings {

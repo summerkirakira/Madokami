@@ -3,7 +3,7 @@ import { type GlobalThemeOverrides } from "naive-ui";
 
 const pinkTheme: GlobalThemeOverrides = {
     common: {
-        primaryColor: "#ff80aa"
+        primaryColor: "#ff80aa",
     },
     Input: {
         borderHover: "1px solid #ff80aa",
@@ -11,6 +11,14 @@ const pinkTheme: GlobalThemeOverrides = {
     },
     Switch: {
         railColorActive: "#ff80aa",
+    },
+    Button: {
+        colorHoverPrimary: "#ff99bb",
+        borderHoverPrimary: "1px solid #ff80aa",
+        borderFocusPrimary: "1px solid #ff80aa",
+        colorFocusPrimary: "#ff99bb",
+        colorPressedPrimary: "#ff6699",
+
     }
 }
 

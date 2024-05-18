@@ -83,7 +83,7 @@ export default {
                 { title: '操作', key: 'action', render: (row: {id: string, name: string, value: string}) => {
                     return h(NSpace, null, {
                         default: () => [
-                            h(NButton, { type: 'error', size: 'small', onClick: () => this.removeSubscription(row.id) }, { default: () => '删除' }),
+                            h(NButton, { secondary: true, type: 'error', size: 'small', onClick: () => this.removeSubscription(row.id) }, { default: () => '删除' }),
                         ]
                     });
                 } }

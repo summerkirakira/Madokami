@@ -56,13 +56,13 @@ class MikanDownloaderEngine(FileDownloaderEngine):
 
     def run(self):
         rss_link_list = []
-        # mikan_rss_url = get_config('mikan_project.mikan_rss_url')
-        # if mikan_rss_url is not None:
-        #     rss_link_list.append(mikan_rss_url)
-        #     with Session(engine) as session:
-        #         rss_store = get_rss_by_link(session, mikan_rss_url)
-        #         if rss_store is None:
-        #             add_rss_storage(session, mikan_rss_url, "Mikan RSS")
+        mikan_rss_url = get_config('mikan_project.mikan_rss_url')
+        if mikan_rss_url is not None:
+            rss_link_list.append(mikan_rss_url)
+            with Session(engine) as session:
+                rss_store = get_rss_by_link(session, mikan_rss_url)
+                if rss_store is None:
+                    add_rss_storage(session, mikan_rss_url, "Mikan RSS个人订阅", preferred_pattern="1080p", banned_pattern="720p")
 
         with Session(engine) as session:
             rss_storages = get_rss_storages(session)
