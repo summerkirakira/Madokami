@@ -10,3 +10,24 @@ export function formatBytes(bytes: number, decimals: number = 2): string {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
   
+
+  export function convertCronToMinutes(cron: string | null): number | null {
+    if (!cron) {
+      return 0;
+    }
+    try {
+      const cronParts = cron.split(' ');
+      const minutes = parseInt(cronParts[0].split('/')[1]);
+      return minutes;
+    } catch (e) {
+      return null;
+    }
+    
+  }
+
+  export function convertMinutesToCron(minutes: number): string | null {
+    if (minutes <= 0) {
+      return null;
+    }
+    return `*/${minutes} * * * *`;
+  }

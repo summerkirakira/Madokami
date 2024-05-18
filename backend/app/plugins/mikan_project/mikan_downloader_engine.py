@@ -57,7 +57,7 @@ class MikanDownloaderEngine(FileDownloaderEngine):
     def run(self):
         rss_link_list = []
         mikan_rss_url = get_config('mikan_project.mikan_rss_url')
-        if mikan_rss_url is not None:
+        if mikan_rss_url is not None and mikan_rss_url.startswith("https://mikanani.me"):
             rss_link_list.append(mikan_rss_url)
             with Session(engine) as session:
                 rss_store = get_rss_by_link(session, mikan_rss_url)
@@ -192,10 +192,10 @@ class MikanDownloaderEngine(FileDownloaderEngine):
 
     @property
     def name(self) -> str:
-        return 'Mikan Downloader Engine'
+        return '蜜柑计划RSS下载引擎'
 
     @property
     def description(self) -> str:
-        return 'A downloader engine for Mikan Project'
+        return '蜜柑计划RSS下载引擎（默认）'
 
 

@@ -51,6 +51,37 @@ export interface AddSubscriptionBody {
 /**
  * 
  * @export
+ * @interface AllScheduledTasksResponse
+ */
+export interface AllScheduledTasksResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof AllScheduledTasksResponse
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof AllScheduledTasksResponse
+     */
+    'success'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof AllScheduledTasksResponse
+     */
+    'title'?: string;
+    /**
+     * 
+     * @type {Array<Plugin>}
+     * @memberof AllScheduledTasksResponse
+     */
+    'data'?: Array<Plugin>;
+}
+/**
+ * 
+ * @export
  * @interface Content
  */
 export interface Content {
@@ -472,6 +503,25 @@ export interface MikanSearchResponse {
 /**
  * 
  * @export
+ * @interface Plugin
+ */
+export interface Plugin {
+    /**
+     * 
+     * @type {string}
+     * @memberof Plugin
+     */
+    'namespace': string;
+    /**
+     * 
+     * @type {Array<ScheduledTask>}
+     * @memberof Plugin
+     */
+    'tasks': Array<ScheduledTask>;
+}
+/**
+ * 
+ * @export
  * @interface PluginInfo
  */
 export interface PluginInfo {
@@ -561,6 +611,43 @@ export interface RemoveSubscriptionBody {
      * @memberof RemoveSubscriptionBody
      */
     'namespace': string;
+}
+/**
+ * 
+ * @export
+ * @interface ScheduledTask
+ */
+export interface ScheduledTask {
+    /**
+     * 
+     * @type {number}
+     * @memberof ScheduledTask
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ScheduledTask
+     */
+    'namespace': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ScheduledTask
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ScheduledTask
+     */
+    'description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ScheduledTask
+     */
+    'cron_str': string | null;
 }
 /**
  * 
@@ -794,6 +881,25 @@ export interface SubscriptionsAllResponse {
 /**
  * 
  * @export
+ * @interface UpdateCronBody
+ */
+export interface UpdateCronBody {
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateCronBody
+     */
+    'schedule_id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCronBody
+     */
+    'cron_str': string | null;
+}
+/**
+ * 
+ * @export
  * @interface UpdateSettingBody
  */
 export interface UpdateSettingBody {
@@ -880,6 +986,117 @@ export interface ValidationError {
  */
 export interface ValidationErrorLocInner {
 }
+
+/**
+ * AppApi - axios parameter creator
+ * @export
+ */
+export const AppApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary  Get Log All
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getLogAllV1AppRestartGet: async (xToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('getLogAllV1AppRestartGet', 'xToken', xToken)
+            const localVarPath = `/v1/app/restart`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AppApi - functional programming interface
+ * @export
+ */
+export const AppApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AppApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary  Get Log All
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getLogAllV1AppRestartGet(xToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InfoMessage>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getLogAllV1AppRestartGet(xToken, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AppApi.getLogAllV1AppRestartGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * AppApi - factory interface
+ * @export
+ */
+export const AppApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AppApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary  Get Log All
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getLogAllV1AppRestartGet(xToken: string, options?: any): AxiosPromise<InfoMessage> {
+            return localVarFp.getLogAllV1AppRestartGet(xToken, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AppApi - object-oriented interface
+ * @export
+ * @class AppApi
+ * @extends {BaseAPI}
+ */
+export class AppApi extends BaseAPI {
+    /**
+     * 
+     * @summary  Get Log All
+     * @param {string} xToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    public getLogAllV1AppRestartGet(xToken: string, options?: RawAxiosRequestConfig) {
+        return AppApiFp(this.configuration).getLogAllV1AppRestartGet(xToken, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
 
 /**
  * DownloadApi - axios parameter creator
@@ -2169,6 +2386,270 @@ export class PluginApi extends BaseAPI {
      */
     public runEngineV1PluginInfoGet(xToken: string, options?: RawAxiosRequestConfig) {
         return PluginApiFp(this.configuration).runEngineV1PluginInfoGet(xToken, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * SchedulerApi - axios parameter creator
+ * @export
+ */
+export const SchedulerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Get All Schedules
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllSchedulesV1ScheduleAllGet: async (xToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('getAllSchedulesV1ScheduleAllGet', 'xToken', xToken)
+            const localVarPath = `/v1/schedule/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Restart Scheduler
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restartSchedulerV1ScheduleRestartGet: async (xToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('restartSchedulerV1ScheduleRestartGet', 'xToken', xToken)
+            const localVarPath = `/v1/schedule/restart`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Update Schedule
+         * @param {string} xToken 
+         * @param {UpdateCronBody} updateCronBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateScheduleV1ScheduleUpdatePost: async (xToken: string, updateCronBody: UpdateCronBody, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'xToken' is not null or undefined
+            assertParamExists('updateScheduleV1ScheduleUpdatePost', 'xToken', xToken)
+            // verify required parameter 'updateCronBody' is not null or undefined
+            assertParamExists('updateScheduleV1ScheduleUpdatePost', 'updateCronBody', updateCronBody)
+            const localVarPath = `/v1/schedule/update`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (xToken != null) {
+                localVarHeaderParameter['x-token'] = String(xToken);
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateCronBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * SchedulerApi - functional programming interface
+ * @export
+ */
+export const SchedulerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = SchedulerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Get All Schedules
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAllSchedulesV1ScheduleAllGet(xToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AllScheduledTasksResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAllSchedulesV1ScheduleAllGet(xToken, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SchedulerApi.getAllSchedulesV1ScheduleAllGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Restart Scheduler
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async restartSchedulerV1ScheduleRestartGet(xToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InfoMessage>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.restartSchedulerV1ScheduleRestartGet(xToken, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SchedulerApi.restartSchedulerV1ScheduleRestartGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Update Schedule
+         * @param {string} xToken 
+         * @param {UpdateCronBody} updateCronBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateScheduleV1ScheduleUpdatePost(xToken: string, updateCronBody: UpdateCronBody, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InfoMessage>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateScheduleV1ScheduleUpdatePost(xToken, updateCronBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SchedulerApi.updateScheduleV1ScheduleUpdatePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * SchedulerApi - factory interface
+ * @export
+ */
+export const SchedulerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = SchedulerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Get All Schedules
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAllSchedulesV1ScheduleAllGet(xToken: string, options?: any): AxiosPromise<AllScheduledTasksResponse> {
+            return localVarFp.getAllSchedulesV1ScheduleAllGet(xToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Restart Scheduler
+         * @param {string} xToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        restartSchedulerV1ScheduleRestartGet(xToken: string, options?: any): AxiosPromise<InfoMessage> {
+            return localVarFp.restartSchedulerV1ScheduleRestartGet(xToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Update Schedule
+         * @param {string} xToken 
+         * @param {UpdateCronBody} updateCronBody 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateScheduleV1ScheduleUpdatePost(xToken: string, updateCronBody: UpdateCronBody, options?: any): AxiosPromise<InfoMessage> {
+            return localVarFp.updateScheduleV1ScheduleUpdatePost(xToken, updateCronBody, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * SchedulerApi - object-oriented interface
+ * @export
+ * @class SchedulerApi
+ * @extends {BaseAPI}
+ */
+export class SchedulerApi extends BaseAPI {
+    /**
+     * 
+     * @summary Get All Schedules
+     * @param {string} xToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SchedulerApi
+     */
+    public getAllSchedulesV1ScheduleAllGet(xToken: string, options?: RawAxiosRequestConfig) {
+        return SchedulerApiFp(this.configuration).getAllSchedulesV1ScheduleAllGet(xToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Restart Scheduler
+     * @param {string} xToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SchedulerApi
+     */
+    public restartSchedulerV1ScheduleRestartGet(xToken: string, options?: RawAxiosRequestConfig) {
+        return SchedulerApiFp(this.configuration).restartSchedulerV1ScheduleRestartGet(xToken, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Update Schedule
+     * @param {string} xToken 
+     * @param {UpdateCronBody} updateCronBody 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SchedulerApi
+     */
+    public updateScheduleV1ScheduleUpdatePost(xToken: string, updateCronBody: UpdateCronBody, options?: RawAxiosRequestConfig) {
+        return SchedulerApiFp(this.configuration).updateScheduleV1ScheduleUpdatePost(xToken, updateCronBody, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

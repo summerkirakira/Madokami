@@ -5,6 +5,7 @@ import { Sunny as LightIcon, Moon as DarkIcon } from '@vicons/ionicons5';
 import { useUserStore } from '@/stores/user';
 import { useMessageStore } from '@/stores/message';
 import { userUpdate } from '@/services/userService';
+import { restartApp } from '@/services/appService';
 
 export default {
   emits: [
@@ -89,6 +90,17 @@ export default {
       this.userStore.logout()
       this.messageStore.setMessage("已退出登录", "success")
       this.$router.push("/login")
+    },
+    async restartBackend() {
+      try{
+        await restartApp()
+      } catch (e) {
+        
+      }
+      this.messageStore.setMessage("Madokami后端已重启", "success")
+      setTimeout(() => {
+        location.reload()
+      }, 2000)
     }
   },
   watch: {
@@ -105,7 +117,11 @@ export default {
 <template>
     <NCard size="medium" title="通用设置">
         <template #header-extra>
-            <NButton type="primary" size="small" @click="emitUpdateSettings">保存</NButton>
+            <NSpace justify="end">
+                <NButton type="error" size="small" @click="restartBackend">重启</NButton>
+                <NButton type="primary" size="small" @click="emitUpdateSettings">保存</NButton>
+            </NSpace>
+            
         </template>
         <NCard size="small" title="主题设置">
           <template #header-extra>

@@ -18,12 +18,6 @@ __metadata__ = {
             'description': '请前往蜜柑计划网站获取RSS订阅地址'
         },
         {
-            'key': 'mikan_project.mikan_rss_interval',
-            'name': '蜜柑计划RSS订阅间隔',
-            'description': '订阅间隔，单位为秒',
-            'default': '600'
-        },
-        {
             'key': 'mikan_project.download_path',
             'name': '番剧存放路径',
             'description': '使用Docker部署时请注意数据卷路径',
