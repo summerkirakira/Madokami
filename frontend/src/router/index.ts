@@ -53,6 +53,10 @@ const router = createRouter({
           meta: {
             title: "日志",
           },
+        },
+        {
+          path: '/:pathMatch(.*)*',
+          redirect: '/library/media',
         }
       ]
     }
@@ -63,7 +67,8 @@ const userStore = useUserStore(pinia);
 
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - Madokami`;
-  if (to.path === "/") {
+  // console.log(to.path);
+  if (to.path === "/" || to.path === "/index.html") {
     next({ name: "media" });
     return;
   }

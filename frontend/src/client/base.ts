@@ -20,7 +20,7 @@ import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from '@/api/modifiedAxios';
 
 // export const BASE_PATH = "http://localhost".replace(/\/+$/, "");
-export const BASE_PATH = window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+export const BASE_PATH = "/";
 /**
  *
  * @export

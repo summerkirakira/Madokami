@@ -5,7 +5,7 @@ from .api import mikan_router
 
 
 __metadata__ = {
-    'name': 'Mikan Plugin',
+    'name': '蜜柑计划订阅插件',
     'namespace': 'summerkirakira.mikan_project',
     'description': 'A plugin for Mikan Project',
     'version': '0.0.1',

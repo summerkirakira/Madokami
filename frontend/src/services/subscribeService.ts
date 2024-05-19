@@ -7,6 +7,7 @@ const subscribeApi = new SubscribeApi();
 
 export async function getSubscriptions() {
     const token = getToken();
+    console.log(subscribeApi)
     if (!token) {
         throw new Error("User not logged in");
     }

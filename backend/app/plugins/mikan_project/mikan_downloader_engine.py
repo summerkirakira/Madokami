@@ -123,7 +123,11 @@ class MikanDownloaderEngine(FileDownloaderEngine):
         #     items_need_download = rss_items
         items_need_download = apply_pattern_filter(rss_items, banned_pattern, preferred_pattern)
         for item in items_need_download:
-            get_app().downloader.add_download(uri=item.link, callback=self.download_callback(item, rss_data=rss_data))
+            try:
+                get_app().downloader.add_download(uri=item.link, callback=self.download_callback(item, rss_data=rss_data))
+            except Exception as e:
+                self._raise_error(f'Failed to add download {item.link} with exception: {str(e)}')
+                continue
             logger.info(f"Added download {item.link} to downloader")
 
     def download_callback(self, item: RssFeed.Item, rss_data: RssFeed) -> Callable:
@@ -178,7 +182,9 @@ class MikanDownloaderEngine(FileDownloaderEngine):
                     )
                 else:
                     logger.info(f"Media info {rss_data.title} found, adding content")
-                    media_info.contents.append(content)
+                    new_contents = [con for con in media_info.contents if con.episode != content.episode]
+                    new_contents.append(content)
+                    media_info.contents = new_contents
                 add_media_info(session, media_info)
 
         return callback

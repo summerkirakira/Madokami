@@ -1,6 +1,6 @@
 <script lang="ts">
 import AppContainer from './components/AppContainer.vue';
-import { NConfigProvider, darkTheme, NGlobalStyle, lightTheme } from 'naive-ui';
+import { NConfigProvider, darkTheme, NGlobalStyle, lightTheme, NThemeEditor } from 'naive-ui';
 import { useThemeStore } from './stores/theme';
 
 
@@ -8,7 +8,8 @@ export default {
   components: {
     AppContainer,
     NConfigProvider,
-    NGlobalStyle
+    NGlobalStyle,
+    NThemeEditor
   },
   setup() {
     const themeStore = useThemeStore();
@@ -28,8 +29,10 @@ export default {
 
 <template>
   <NConfigProvider :theme="theme" :theme-overrides="themeStore.theme">
+  <!-- <NThemeEditor> -->
     <AppContainer />
     <NGlobalStyle />
+  <!-- </NThemeEditor> -->
   </NConfigProvider>
 </template>
 
