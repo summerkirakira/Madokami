@@ -53,6 +53,7 @@ Madokami
 
 ## 快速安装
 推荐通过Docker部署Madokami
+注：Madokami WebUI的默认用户与密码是root, 123456
 
 注意当docker容器被设置为桥接(`brige`)模式时网络与宿主机隔离，此时无法通过`localhost`访问部署在本地的Aria2实例。此时设置内的Aria2地址应当填为内网地址或者Docker回环地址。
 
@@ -75,7 +76,7 @@ docker run -d \
 mkdir Madokami/data
 cd Madokami
 ```
-项目根目录的`docker-compose.yml`中默认打包了Madokami项目，Aria2, Aria2 WebUI，如想使用自己的Aria2实例，删除对应的service即可。
+项目根目录的`docker-compose.yml`中默认打包了Madokami项目, Aria2, Aria2 WebUI，如想使用自己的Aria2实例，删除对应的service即可。
 ```yml
 version: "3.8"
 
