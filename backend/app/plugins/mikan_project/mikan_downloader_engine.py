@@ -113,12 +113,15 @@ class MikanDownloaderEngine(FileDownloaderEngine):
             record_rss_history(session, rss_storage.rss_link, success=True)
 
     def _download_seed(self, url: str) -> str:
-        response = self.requester.request(url, 'GET')
         cache_path = get_config('madokami.config.cache_path', './data/cache')
         seed_cache_path = get_validated_path(cache_path) / 'seed_cache'
         if not seed_cache_path.exists():
             seed_cache_path.mkdir(parents=True, exist_ok=True)
         seed_cache_path = seed_cache_path / url.split('/')[-1]
+        if seed_cache_path.exists():
+            logger.info(f"Seed {url} already exists in cache")
+            return str(seed_cache_path)
+        response = self.requester.request(url, 'GET')
         with seed_cache_path.open('wb') as f:
             f.write(response.content)
         logger.info(f"Downloaded seed {url} to {seed_cache_path}")
