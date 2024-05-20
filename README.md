@@ -82,7 +82,7 @@ version: "3.8"
 
 services:
   madokami:
-    image: "summerkirakira/madokami:0.1.4"
+    image: "summerkirakira/madokami:latest"
     restart: unless-stopped
     network_mode: bridge
     ports:
