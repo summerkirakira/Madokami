@@ -71,7 +71,7 @@ docker run -d \
 ### 使用Docker Compose部署Madokami
 在目标路径创建data文件夹
 ```bash
-mkdir Madokami/data
+mkdir -p Madokami/data/aria2/downloads 
 cd Madokami
 ```
 项目根目录的`docker-compose.yml`中默认打包了Madokami项目, Aria2, Aria2 WebUI，如想使用自己的Aria2实例，删除对应的service即可。
