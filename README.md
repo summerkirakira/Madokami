@@ -56,7 +56,7 @@ Madokami
 
 注：Madokami WebUI的默认用户名与密码是root, 123456
 
-注意当docker容器被设置为桥接(`brige`)模式时网络与宿主机隔离，此时无法通过`localhost`访问部署在本地的Aria2实例。此时设置内的Aria2地址应当填为内网地址或者Docker回环地址。
+注意当docker容器被设置为桥接(`bridge`)模式时网络与宿主机隔离，此时无法通过`localhost`访问部署在本地的Aria2实例。此时设置内的Aria2地址应当填为内网地址或者Docker回环地址。
 
 ### 使用Docker-cli部署Madokami
 ```bash
