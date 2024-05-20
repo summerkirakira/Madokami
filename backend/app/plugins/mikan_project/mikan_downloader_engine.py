@@ -20,6 +20,7 @@ from madokami.internal.default_plugins.bangumi_requester import BangumiRequester
 
 from .crud import get_rss_storages, record_rss_history, get_rss_by_link, add_rss_storage
 from madokami.db import Session, engine
+import uuid
 
 
 class MikanDownloaderEngine(FileDownloaderEngine):
@@ -111,8 +112,18 @@ class MikanDownloaderEngine(FileDownloaderEngine):
         with Session(engine) as session:
             record_rss_history(session, rss_storage.rss_link, success=True)
 
+    def _download_seed(self, url: str) -> str:
+        response = self.requester.request(url, 'GET')
+        cache_path = get_config('madokami.config.cache_path', './data/cache')
+        seed_cache_path = get_validated_path(cache_path) / 'seed_cache'
+        if not seed_cache_path.exists():
+            seed_cache_path.mkdir(parents=True, exist_ok=True)
+        seed_cache_path = seed_cache_path / url.split('/')[-1]
+        with seed_cache_path.open('wb') as f:
+            f.write(response.content)
+        logger.info(f"Downloaded seed {url} to {seed_cache_path}")
+        return str(seed_cache_path)
 
-    # def _download_cover(self, rss_data: RssFeed):
 
     def _download(self, rss_data: RssFeed, banned_pattern: str = None, preferred_pattern: str = None):
         # is_remove_duplicate = get_config('mikan_project.remove_duplicate', "1")
@@ -124,7 +135,11 @@ class MikanDownloaderEngine(FileDownloaderEngine):
         items_need_download = apply_pattern_filter(rss_items, banned_pattern, preferred_pattern)
         for item in items_need_download:
             try:
-                get_app().downloader.add_download(uri=item.link, callback=self.download_callback(item, rss_data=rss_data))
+                if get_config('mikan_project.manual_download_seed', "true") == "true":
+                    seed_path = self._download_seed(item.link)
+                    get_app().downloader.add_download(uri=seed_path, callback=self.download_callback(item, rss_data=rss_data))
+                else:
+                    get_app().downloader.add_download(uri=item.link, callback=self.download_callback(item, rss_data=rss_data))
             except Exception as e:
                 self._raise_error(f'Failed to add download {item.link} with exception: {str(e)}')
                 continue

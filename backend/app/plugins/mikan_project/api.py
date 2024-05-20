@@ -4,6 +4,7 @@ from .models import MikanSearchResponse, MikanSearchPostBody
 from urllib.parse import quote
 from .mikan_search_engine import MikanSearchEngine
 from madokami.drivers.router import register_router
+from madokami.log import logger
 
 mikan_router = APIRouter(tags=["Mikan"])
 
@@ -14,6 +15,7 @@ def run_engine(search: MikanSearchPostBody):
         search_results = MikanSearchEngine().search(search.keyword)
         return MikanSearchResponse(data=search_results)
     except Exception as e:
+        logger.error(f"Failed to search: {e}")
         return MikanSearchResponse(message=f"Failed to search: {e}", success=False)
 
 

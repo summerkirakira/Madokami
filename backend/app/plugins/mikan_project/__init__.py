@@ -29,6 +29,12 @@ __metadata__ = {
             'description': 'Madokami会将此处下载完成的文件重命名后移动到番剧存放路径',
             'default': './data/aria2/downloads'
         },
+        {
+            'key': 'mikan_project.manual_download_seed',
+            'name': '是否使用代理下载种子文件',
+            'description': '如果你的网络环境无法直接访问Mikan Project，请开启此选项',
+            'default': 'true'
+        },
     ],
     'engines': [
         'MikanDownloaderEngine'
