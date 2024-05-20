@@ -1,4 +1,10 @@
-FROM node:17 as builder
+FROM node:18 as builder
+
+ENV LANG="C.UTF-8" \
+    TZ=Asia/Shanghai \
+    UMASK_SET=022 \
+    PUID=65534 \
+    PGID=65534
 
 WORKDIR /app
 COPY frontend/package.json frontend/package-lock.json ./

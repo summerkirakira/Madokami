@@ -102,6 +102,8 @@ services:
       - RPC_PORT=6800
       - LISTEN_PORT=6888
       - UMASK_SET=022
+      - PUID=65534
+      - PGID=65534
     volumes:
       - ./data/aria2/downloads:/downloads
       - ./data/aria2/config:/config
