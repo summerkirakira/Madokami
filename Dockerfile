@@ -1,11 +1,5 @@
 FROM node:18 as builder
 
-ENV LANG="C.UTF-8" \
-    TZ=Asia/Shanghai \
-    UMASK_SET=022 \
-    PUID=65534 \
-    PGID=65534
-
 WORKDIR /app
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm install
@@ -15,6 +9,12 @@ RUN npm run build
 
 FROM python:3.10-slim
 WORKDIR /app/backend
+
+RUN useradd --create-home --no-log-init --shell /bin/bash docker \
+&& adduser docker sudo \
+&& echo 'docker:123456' | chpasswd
+
+USER docker:docker
 
 RUN pip install poetry
 
