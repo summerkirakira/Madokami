@@ -63,8 +63,6 @@ docker run -d \
   --name=Madokami \
   -v your_data_dir:/app/backend/data
   -p 8000:8000 \
-  -e PUID=$(id -u) \
-  -e PGID=$(id -g) \
   --network=bridge \
   --restart unless-stopped \
   summerkirakira/madokami
@@ -77,6 +75,8 @@ mkdir Madokami/data
 cd Madokami
 ```
 项目根目录的`docker-compose.yml`中默认打包了Madokami项目, Aria2, Aria2 WebUI，如想使用自己的Aria2实例，删除对应的service即可。
+注：docker-compose.yml中的UID和GID需要修改为当前用户。
+可以通过`echo $UID`, `echo $GID`获得。
 ```yml
 version: "3.8"
 
@@ -102,8 +102,8 @@ services:
       - RPC_PORT=6800
       - LISTEN_PORT=6888
       - UMASK_SET=022
-      - PUID=65534
-      - PGID=65534
+      - PUID=你的UID
+      - PGID=你的GID
     volumes:
       - ./data/aria2/downloads:/downloads
       - ./data/aria2/config:/config
