@@ -1099,6 +1099,176 @@ export class AppApi extends BaseAPI {
 
 
 /**
+ * DefaultApi - axios parameter creator
+ * @export
+ */
+export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Catch All
+         * @param {string} fullPath 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        catchAllWebuiFullPathGet: async (fullPath: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fullPath' is not null or undefined
+            assertParamExists('catchAllWebuiFullPathGet', 'fullPath', fullPath)
+            const localVarPath = `/webui/{full_path}`
+                .replace(`{${"full_path"}}`, encodeURIComponent(String(fullPath)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Index
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        indexGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DefaultApi - functional programming interface
+ * @export
+ */
+export const DefaultApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Catch All
+         * @param {string} fullPath 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async catchAllWebuiFullPathGet(fullPath: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.catchAllWebuiFullPathGet(fullPath, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.catchAllWebuiFullPathGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @summary Index
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async indexGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.indexGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.indexGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * DefaultApi - factory interface
+ * @export
+ */
+export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DefaultApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Catch All
+         * @param {string} fullPath 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        catchAllWebuiFullPathGet(fullPath: string, options?: any): AxiosPromise<any> {
+            return localVarFp.catchAllWebuiFullPathGet(fullPath, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Index
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        indexGet(options?: any): AxiosPromise<any> {
+            return localVarFp.indexGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DefaultApi - object-oriented interface
+ * @export
+ * @class DefaultApi
+ * @extends {BaseAPI}
+ */
+export class DefaultApi extends BaseAPI {
+    /**
+     * 
+     * @summary Catch All
+     * @param {string} fullPath 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public catchAllWebuiFullPathGet(fullPath: string, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).catchAllWebuiFullPathGet(fullPath, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Index
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public indexGet(options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).indexGet(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * DownloadApi - axios parameter creator
  * @export
  */
@@ -1800,10 +1970,12 @@ export const LogApiAxiosParamCreator = function (configuration?: Configuration) 
          * 
          * @summary  Get Log All
          * @param {string} xToken 
+         * @param {string} [level] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLogAllV1LogAllGet: async (xToken: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getLogAllV1LogAllGet: async (xToken: string, level?: string, limit?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'xToken' is not null or undefined
             assertParamExists('getLogAllV1LogAllGet', 'xToken', xToken)
             const localVarPath = `/v1/log/all`;
@@ -1817,6 +1989,14 @@ export const LogApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (level !== undefined) {
+                localVarQueryParameter['level'] = level;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
 
             if (xToken != null) {
                 localVarHeaderParameter['x-token'] = String(xToken);
@@ -1847,11 +2027,13 @@ export const LogApiFp = function(configuration?: Configuration) {
          * 
          * @summary  Get Log All
          * @param {string} xToken 
+         * @param {string} [level] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getLogAllV1LogAllGet(xToken: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LogResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getLogAllV1LogAllGet(xToken, options);
+        async getLogAllV1LogAllGet(xToken: string, level?: string, limit?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LogResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getLogAllV1LogAllGet(xToken, level, limit, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['LogApi.getLogAllV1LogAllGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -1870,11 +2052,13 @@ export const LogApiFactory = function (configuration?: Configuration, basePath?:
          * 
          * @summary  Get Log All
          * @param {string} xToken 
+         * @param {string} [level] 
+         * @param {number} [limit] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getLogAllV1LogAllGet(xToken: string, options?: any): AxiosPromise<LogResponse> {
-            return localVarFp.getLogAllV1LogAllGet(xToken, options).then((request) => request(axios, basePath));
+        getLogAllV1LogAllGet(xToken: string, level?: string, limit?: number, options?: any): AxiosPromise<LogResponse> {
+            return localVarFp.getLogAllV1LogAllGet(xToken, level, limit, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1890,12 +2074,14 @@ export class LogApi extends BaseAPI {
      * 
      * @summary  Get Log All
      * @param {string} xToken 
+     * @param {string} [level] 
+     * @param {number} [limit] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof LogApi
      */
-    public getLogAllV1LogAllGet(xToken: string, options?: RawAxiosRequestConfig) {
-        return LogApiFp(this.configuration).getLogAllV1LogAllGet(xToken, options).then((request) => request(this.axios, this.basePath));
+    public getLogAllV1LogAllGet(xToken: string, level?: string, limit?: number, options?: RawAxiosRequestConfig) {
+        return LogApiFp(this.configuration).getLogAllV1LogAllGet(xToken, level, limit, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

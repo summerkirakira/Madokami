@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^2.13.4",
+    "highlight.js": "^11.9.0",
     "openapi-ts": "^0.3.4",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",

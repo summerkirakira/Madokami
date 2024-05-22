@@ -1,5 +1,5 @@
 <script lang="ts">
-import { getLogs } from '@/services/logServoce';
+import { getLogs } from '@/services/logService';
 import { NLog, NCard, type LogInst } from 'naive-ui';
 import { ref } from 'vue';
 
@@ -49,6 +49,7 @@ export default {
     logs() {
       this.$nextTick(() => {
         if (logInstRef.value) {
+          console.log(logInstRef)
           logInstRef.value?.scrollTo({ position: 'bottom', silent: true })
         }
       });
@@ -61,7 +62,7 @@ export default {
 
 <template>
   <n-card title="日志" style="width: 100%">
-    <n-log ref="logContainer" :lines="logs" style="height: 80vh;" />
+    <n-log ref="logInst" :lines="logs" style="height: 80vh;" language="naive-log" />
   </n-card>
 </template>
 
