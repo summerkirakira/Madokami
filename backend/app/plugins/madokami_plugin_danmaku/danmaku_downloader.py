@@ -1,6 +1,6 @@
 from madokami.plugin.backend.engine import FileDownloaderEngine
 from madokami.internal.core_config import get_config
-from .crud import get_danmaku_storage
+from .crud import get_danmaku_storage, get_danmaku_storage_by_url
 from madokami.db import Session, engine
 from .video_downloader import VideoDownloader
 from pathlib import Path
@@ -15,12 +15,17 @@ class DanmakuDownloadEngine(FileDownloaderEngine):
     def run(self):
         with Session(engine) as session:
             danmaku_storages = get_danmaku_storage(session)
+
         download_path = get_config("danmakudownload.download_path", "./data/downloads/bilibili_downloads")
         download_path = Path(download_path)
         if not download_path.exists():
             download_path.mkdir(parents=True)
         for danmaku_storage in danmaku_storages:
             if danmaku_storage.link in self.downloading_urls:
+                continue
+            with Session(engine) as session:
+                history_record = get_danmaku_storage_by_url(session, danmaku_storage.link)
+            if history_record is not None and history_record.is_download:
                 continue
             self.downloading_urls.append(danmaku_storage.link)
             downloader = VideoDownloader(danmaku_storage.link, download_path)
