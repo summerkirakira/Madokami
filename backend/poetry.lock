@@ -881,6 +881,14 @@ toml = ["tomli (>=2.0.1)"]
 yaml = ["pyyaml (>=6.0.1)"]
 
 [[package]]
+name = "pymediainfo"
+version = "6.1.0"
+description = "A Python wrapper for the mediainfo library."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
 name = "pytest"
 version = "8.2.1"
 description = "pytest: simple powerful testing with Python"
@@ -1373,7 +1381,7 @@ secretstorage = ["cffi", "secretstorage"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "c9376b0202ba90253c1100d1f74750c982a7bbced53da0e26bebfd671dbe16a7"
+content-hash = "817db10b4a939d2b95b1703cd3940a84f7ef11e46f22b45224a0ce7f6a47676a"
 
 [metadata.files]
 aiohttp = [
@@ -2682,6 +2690,12 @@ pydantic-core = [
 pydantic-settings = [
     {file = "pydantic_settings-2.2.1-py3-none-any.whl", hash = "sha256:0235391d26db4d2190cb9b31051c4b46882d28a51533f97440867f012d4da091"},
     {file = "pydantic_settings-2.2.1.tar.gz", hash = "sha256:00b9f6a5e95553590434c0fa01ead0b216c3e10bc54ae02e37f359948643c5ed"},
+]
+pymediainfo = [
+    {file = "pymediainfo-6.1.0-py3-none-macosx_10_15_x86_64.whl", hash = "sha256:69d5d3cac056c24a68a1129216aec82a222e804a35f88567c08585e8ae7ef2b3"},
+    {file = "pymediainfo-6.1.0-py3-none-win32.whl", hash = "sha256:19e6baeca3db71f12ed568f056de899fd02f380990fb10f43a26c32b67362dd3"},
+    {file = "pymediainfo-6.1.0-py3-none-win_amd64.whl", hash = "sha256:f3f6bad666c65ac993dd8d64f45a2b26ba2acd50f9875f74cebb624dbf2f8da0"},
+    {file = "pymediainfo-6.1.0.tar.gz", hash = "sha256:186a0b41a94524f0984d085ca6b945c79a254465b7097f2560dc0c04e8d1d8a5"},
 ]
 pytest = [
     {file = "pytest-8.2.1-py3-none-any.whl", hash = "sha256:faccc5d332b8c3719f40283d0d44aa5cf101cec36f88cde9ed8f2bc0538612b1"},
