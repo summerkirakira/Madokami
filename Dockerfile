@@ -10,7 +10,11 @@ RUN npm run build
 FROM python:3.10-slim
 WORKDIR /app/backend
 
-RUN pip install poetry
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      mediainfo \
+      ffmpeg \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install poetry
 
 RUN useradd --create-home --no-log-init --shell /bin/bash docker \
 && adduser docker sudo \
