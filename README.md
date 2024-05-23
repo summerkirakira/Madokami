@@ -34,9 +34,10 @@ Madokami是一个现代、跨平台的，可扩展的番剧订阅工具。它基
 + 状态监控: 内置下载状态查询器，当前下载项的名称，大小，进度，速度等将在WebUI实时显示，拒绝下载焦虑。
 + 易于开发: 100% 类型注解覆盖，配合编辑器的类型推导功能，能将绝大多数的 Bug 杜绝在编辑器中。
 
-| 插件名称 | 状态 | 简介 |
-| :-----  |:---:|:----|
-| Mikan Parser ([仓库](https://github.com/summerkirakira/madokami-plugin-mikan-parser))|✅|为Madokami项目提供蜜柑计划源的解析，搜索与下载功能。|
+| 插件名称 | 状态 | 简介                             |
+| :-----  |:---:|:-------------------------------|
+| Mikan Parser ([仓库](https://github.com/summerkirakira/madokami-plugin-mikan-parser))|✅| 为Madokami项目提供蜜柑计划源的解析，搜索与下载功能。 |
+| Danmaku Downloader([仓库](https://github.com/summerkirakira/madokami-plugin-danmaku)|✅| 为Madokami项目提供B站视频及弹幕下载功能。      |
 
 ## 命名格式示例
 ```
