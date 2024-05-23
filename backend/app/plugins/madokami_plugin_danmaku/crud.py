@@ -1,5 +1,5 @@
 from .models import DanmakuStorage
-from sqlmodel import Session, select, delete
+from sqlmodel import Session, select, delete, and_
 
 
 def get_danmaku_storage(session: Session) -> list[DanmakuStorage]:
@@ -13,7 +13,7 @@ def add_danmaku_storage(session: Session, danmaku_link: str):
 
 
 def remove_danmaku_storage(session: Session, storage_id: str):
-    result = session.exec(select(DanmakuStorage).where(DanmakuStorage.id == storage_id))
+    result = session.exec(select(DanmakuStorage).where(DanmakuStorage.id == storage_id)).first()
     if result is None:
         return None
     session.delete(result)

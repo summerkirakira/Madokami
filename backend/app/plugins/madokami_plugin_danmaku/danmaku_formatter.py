@@ -15,7 +15,7 @@ def get_page(url):
     return response.text
 
 
-def get_cid(url):
+def get_bv_cid(url):
     page = get_page(url)
     videoInfo = re.search(r'<script>window\.__INITIAL_STATE__\s*=(.*?)</script>', page)
     result = videoInfo.group(1)
@@ -23,11 +23,28 @@ def get_cid(url):
     return cid
 
 
+def get_ep_cid(url):
+    ep_id = re.search(r'https://www.bilibili.com/bangumi/play/ep(\d*)', url)
+    ep_id = ep_id.group(1)
+    result = requests.get(f'https://api.bilibili.com/pgc/view/web/season?ep_id={ep_id}', headers=headers)
+    for ep in result.json()['result']['episodes']:
+        if ep['ep_id'] == int(ep_id):
+            return ep['cid']
+    raise ValueError('cid not found')
+
+
 def download_danmaku(file_path: Path, url: str = None, cid: str = None):
     if cid is None:
         if url is None:
             raise ValueError("No url provided")
-        cid = get_cid(url)
+        try:
+            cid = get_bv_cid(url)
+        except Exception as e:
+            try:
+                cid = get_ep_cid(url)
+            except Exception as e:
+                logger.error(f"无法获取cid: {e}")
+                return
     is_download_xml = get_config('danmakudownload.is_download_xml_danmaku', 'false') == 'true'
     is_download_ass = get_config('danmakudownload.is_download_danmaku', 'false') == 'true'
     width, height = get_video_width_height(file_path)
@@ -41,5 +58,3 @@ def download_danmaku(file_path: Path, url: str = None, cid: str = None):
         with xml_path.open("w") as f:
             f.write(danmaku_xml)
             logger.success(f"成功为{file_path.name}生成xml弹幕文件")
-
-

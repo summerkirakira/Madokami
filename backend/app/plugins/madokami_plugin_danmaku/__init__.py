@@ -4,7 +4,7 @@ from .danmaku_downloader import DanmakuDownloadEngine
 
 
 __metadata__ = {
-    'name': '自动获取弹幕插件',
+    'name': 'B站视频下载插件',
     'namespace': 'summerkirakira.danmakudownloadplugin',
     'description': 'A plugin for Danmaku Downloader',
     'version': '0.0.1',

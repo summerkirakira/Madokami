@@ -21,7 +21,7 @@ class VideoDownloader:
         return Download(
             id=str(uuid.uuid4()),
             is_metadata=False,
-            name='元数据获取中...',
+            name='元数据获取中...                    ',
             target_path=self.output_path,
             dir=self.output_path.parent,
             total_length=0,
