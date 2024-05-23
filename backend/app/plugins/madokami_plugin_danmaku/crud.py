@@ -18,3 +18,7 @@ def remove_danmaku_storage(session: Session, storage_id: str):
         return None
     session.delete(result)
     session.commit()
+
+
+def get_danmaku_storage_by_url(session: Session, url: str) -> DanmakuStorage:
+    return session.exec(select(DanmakuStorage).where(DanmakuStorage.link == url)).first()

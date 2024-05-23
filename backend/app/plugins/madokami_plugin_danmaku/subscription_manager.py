@@ -1,7 +1,7 @@
 from madokami.plugin.models import Subscription
 from madokami.plugin.subscription import SubscriptionManager
 from madokami.db import Session
-from crud import get_danmaku_storage, remove_danmaku_storage, add_danmaku_storage
+from .crud import get_danmaku_storage, remove_danmaku_storage, add_danmaku_storage
 
 
 class DanmakuSubscriptionManager(SubscriptionManager):

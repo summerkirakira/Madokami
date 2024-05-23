@@ -13,6 +13,7 @@ import time
 import xml.dom.minidom
 from pymediainfo import MediaInfo
 from pathlib import Path
+from madokami.log import logger
 
 if sys.version_info < (3,):
     raise RuntimeError('at least Python 3.0 is required')
@@ -853,7 +854,12 @@ def generate_ass(xml: str, output: str, width: int, height: int):
 
 
 def get_video_width_height(path: Path) -> (int, int):
-    media_info = MediaInfo.parse(path.absolute())
-    for track in media_info.tracks:
-        if track.track_type == 'Video':
-            return track.width, track.height
+    try:
+        media_info = MediaInfo.parse(path.absolute())
+        for track in media_info.tracks:
+            if track.track_type == 'Video':
+                return track.width, track.height
+    except Exception as e:
+        logger.warning("获取视频尺寸失败，已使用默认1080p分辨率，可能导致ass弹幕显示异常")
+        return 1920, 1080
+

@@ -1,5 +1,6 @@
 from madokami.db import engine, Session, SQLModel
 from .subscription_manager import DanmakuSubscriptionManager
+from .danmaku_downloader import DanmakuDownloadEngine
 
 
 __metadata__ = {
@@ -27,9 +28,17 @@ __metadata__ = {
             'name': '是否同时下载XML格式弹幕文件',
             'description': '弹幕文件将以XML格式保存在视频文件夹下',
             'default': 'true'
+        },
+        {
+            'key': 'danmakudownload.cookie',
+            'name': 'Bilibili Cookie',
+            'description': '用于获取高清视频，不填此项将默认下载480p清晰度视频',
+            'default': ''
         }
     ],
-    'engines': [],
+    'engines': [
+        'DanmakuDownloadEngine'
+    ],
     'subscription_manager': DanmakuSubscriptionManager()
 }
 
