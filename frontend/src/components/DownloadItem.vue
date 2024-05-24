@@ -47,5 +47,6 @@ export default {
 .download-item {
   padding: 10px;
   border-bottom: 1px solid #f0f0f0;
+  min-width: 300px;
 }
 </style>

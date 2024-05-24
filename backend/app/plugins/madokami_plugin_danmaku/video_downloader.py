@@ -9,6 +9,7 @@ from .danmaku_formatter import download_danmaku
 import threading
 from madokami.db import Session, engine
 from .crud import get_danmaku_storage_by_url
+import json
 
 
 class VideoDownloader:
@@ -52,6 +53,16 @@ class VideoDownloader:
                 session.commit()
         return finished_callback
 
+    def get_postprocessor_hook(self) -> Callable[[dict], None]:
+        def postprocessor_hook(data: dict):
+            # logger.error(f'Postprocessor hook: {data}')
+            if data['status'] == 'finished':
+                self.download.target_path = Path(data['info_dict']['filename'])
+                self.download.status = DownloadStatus.COMPLETED
+                self.download.name = f"正在为视频下载弹幕..."
+
+        return postprocessor_hook
+
     def get_download_hook(self) -> Callable[[dict], None]:
         if self.download is None:
             self.download = self._init_download()
@@ -60,7 +71,11 @@ class VideoDownloader:
             try:
                 # logger.info(f'Updating download status: {data}')
                 if data['status'] == 'finished':
-                    self.download.status = DownloadStatus.COMPLETED
+                    if data['info_dict'].get('__files_to_merge') is not None and len(
+                            data['info_dict'].get('__files_to_merge')) > 0:
+                        pass
+                    else:
+                        self.download.status = DownloadStatus.COMPLETED
                 elif data['status'] == 'downloading':
                     self.download.status = DownloadStatus.DOWNLOADING
                 elif data['status'] == 'error':
@@ -69,11 +84,12 @@ class VideoDownloader:
                 self.download.total_length = data.get('total_bytes') if data.get('total_bytes') else 1e-3
                 self.download.progress = data.get('downloaded_bytes') / self.download.total_length if data.get('downloaded_bytes') else 0
                 self.download.current_speed = data.get('speed') if data.get('speed') else 0
+                filename = data['info_dict']['filename']
                 if '/' in data['filename']:
                     self.download.name = data['filename'].split('/')[-1]
                 else:
                     self.download.name = data['filename']
-                self.download.target_path = Path(data['filename'])
+                self.download.target_path = Path(filename)
 
                 self.download.total_length = int(self.download.total_length)
                 self.download.progress = self.download.progress * 100
@@ -92,6 +108,7 @@ class VideoDownloader:
             'format': 'bestvideo+bestaudio/best',
             'outtmpl': self.get_file_path(),
             'progress_hooks': [self.get_download_hook()],
+            'postprocessor_hooks': [self.get_postprocessor_hook()],
             'logger': logger,
             'http_headers': {
                 'Cookie': get_config('danmakudownload.cookie', ''),
