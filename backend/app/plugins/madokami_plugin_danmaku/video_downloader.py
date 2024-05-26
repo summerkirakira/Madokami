@@ -59,7 +59,7 @@ class VideoDownloader:
             if data['status'] == 'finished':
                 self.download.target_path = Path(data['info_dict']['filename'])
                 self.download.status = DownloadStatus.COMPLETED
-                self.download.name = f"正在为视频下载弹幕..."
+                # self.download.name = f"正在为视频下载弹幕..."
 
         return postprocessor_hook
 

@@ -66,7 +66,7 @@ docker run -d \
   -v your_data_dir:/app/backend/data
   -p 8000:8000 \
   --network=bridge \
-  --restart unless-stopped \
+  --restart always \
   summerkirakira/madokami
 ```
 
@@ -85,7 +85,7 @@ version: "3.8"
 services:
   madokami:
     image: "summerkirakira/madokami:latest"
-    restart: unless-stopped
+    restart: always
     network_mode: bridge
     ports:
       - "8000:8000"
