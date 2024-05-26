@@ -16,9 +16,15 @@ _✨ 可扩展的番剧订阅平台 ✨_
 </div>
 
 
-<div align="center">
+<!-- <div align="center">
 <img src="https://img.shields.io/badge/QQ%E7%BE%A4-277828146-green?style=flat-square" alt="QQ Chat Group">
-</div>
+</div> -->
+
+<p align="center">
+  <a href="https://image.biaoju.site/madokami/">文档</a>
+  ·
+  <a href="https://image.biaoju.site/madokami/startup/">快速上手</a>
+</p>
 
 
 ![](images/main_screenshot.png)

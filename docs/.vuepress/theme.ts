@@ -3,7 +3,7 @@ import navbar from "./navbar.js";
 import sidebar from "./sidebar.js";
 
 export default hopeTheme({
-  hostname: "https://madokami.biaoju.site",
+  hostname: "https://image.biaoju.site",
 
   author: {
     name: "Summerkirakira",
