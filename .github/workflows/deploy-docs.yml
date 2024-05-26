@@ -31,7 +31,8 @@ jobs:
       - name: 安装依赖
         run: |
           corepack enable
-          npm ci
+          npm install --legacy-peer-deps
+
 
       - name: 构建文档
         env:
