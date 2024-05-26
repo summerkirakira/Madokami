@@ -43,7 +43,7 @@ Madokami是一个现代、跨平台的，可扩展的番剧订阅工具。它基
 | 插件名称 | 状态 | 简介                             |
 | :-----  |:---:|:-------------------------------|
 | Mikan Parser ([仓库](https://github.com/summerkirakira/madokami-plugin-mikan-parser))|✅| 为Madokami项目提供蜜柑计划源的解析，搜索与下载功能。 |
-| Danmaku Downloader([仓库](https://github.com/summerkirakira/madokami-plugin-danmaku)|✅| 为Madokami项目提供B站视频及弹幕下载功能。      |
+| Danmaku Downloader ([仓库](https://github.com/summerkirakira/madokami-plugin-danmaku))|✅| 为Madokami项目提供B站视频及弹幕下载功能。      |
 
 ## 命名格式示例
 ```
