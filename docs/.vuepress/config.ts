@@ -2,7 +2,7 @@ import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
 
 export default defineUserConfig({
-  base: "/madokami/",
+  base: "/Madokami/",
 
   lang: "zh-CN",
   title: "Madokami用户指南",
