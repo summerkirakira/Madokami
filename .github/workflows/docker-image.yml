@@ -23,7 +23,7 @@ jobs:
       run: echo "VERSION=$(python backend/read_version.py)" >> $GITHUB_ENV
     
     - name: Docker Login
-      uses: docker/login-action@v3.1.0
+      uses: docker/login-action@v3.3.0
       with:
         username: ${{ secrets.DOCKERACC }}
         password: ${{ secrets.DOCKERPWD }}
