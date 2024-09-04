@@ -134,19 +134,28 @@ services:
 下载Madokami git仓库
 ```bash
 git clone https://github.com/summerkirakira/Madokami.git
-cd Madokami/backend
 ```
 安装依赖
 ```bash
+cd Madokami/backend
 poetry install
 ```
+
+编译前端
+```bash
+cd Madokami/frontend
+npm install
+npm run build
+```
+
 运行Madokami
 ```bash
+cd Madokami/backend
 python -m app.main
 ```
 
 ## Future
-- [ ] B站视频、直播及弹幕下载
+- [x] B站视频、直播及弹幕下载
 - [ ] 为本地番剧自动生成B站弹幕ASS字幕
 - [ ] 在线已下载视频播放
 - [ ] 网页解析生成Epub并自动发送到Calibre
