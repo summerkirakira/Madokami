@@ -140,6 +140,14 @@ cd Madokami/backend
 ```bash
 poetry install
 ```
+
+编译前端
+```bash
+cd Madokami/frontend
+npm install
+npm run build
+```
+
 运行Madokami
 ```bash
 python -m app.main
