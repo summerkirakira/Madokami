@@ -134,10 +134,10 @@ services:
 下载Madokami git仓库
 ```bash
 git clone https://github.com/summerkirakira/Madokami.git
-cd Madokami/backend
 ```
 安装依赖
 ```bash
+cd Madokami/backend
 poetry install
 ```
 
@@ -150,6 +150,7 @@ npm run build
 
 运行Madokami
 ```bash
+cd Madokami/backend
 python -m app.main
 ```
 
