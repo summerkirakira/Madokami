@@ -17,8 +17,15 @@ export function formatBytes(bytes: number, decimals: number = 2): string {
     }
     try {
       const cronParts = cron.split(' ');
-      const minutes = parseInt(cronParts[0].split('/')[1]);
-      return minutes;
+      let minutes = 0;
+      let hours = 0;
+      if (cronParts[0].includes('/')) {
+        minutes = parseInt(cronParts[0].split('/')[1]);
+      }
+      if (cronParts[1].includes('/')) {
+        hours = parseInt(cronParts[1].split('/')[1]);
+      }
+      return minutes + hours * 60;
     } catch (e) {
       return null;
     }
@@ -29,5 +36,14 @@ export function formatBytes(bytes: number, decimals: number = 2): string {
     if (minutes <= 0) {
       return null;
     }
+
+    if (minutes > 59) {
+      const hours = Math.floor(minutes / 60);
+      if (hours > 23) {
+        return "* */23 * * *";
+      }
+      return `0 */${hours} * * *`;
+    }
+
     return `*/${minutes} * * * *`;
   }
