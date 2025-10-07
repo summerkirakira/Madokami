@@ -161,6 +161,10 @@ python -m app.main
 - [ ] 网页解析生成Epub并自动发送到Calibre
 - [ ] 连接[Nonebot2](https://github.com/nonebot/nonebot2)，实现番剧更新发送到QQ, Discord等聊天平台
 - [ ] 连接[Home Assistant](https://www.home-assistant.io/)，在WebUI上显示追番状态
+
+## 常见问题
++ Madokami日志中显示`Unauthorized`错误
+  + 请在[Bangumi API](https://next.bgm.tv/demo/access-token)中获取自己的Access Token并填入Madokami设置中
   
 ## Licence
 
